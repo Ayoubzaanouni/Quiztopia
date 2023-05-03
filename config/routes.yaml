@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+app_questions_new:
+    path: /quizes/{quiz_id}/questions/new
+    controller: App\Controller\QuestionsController::new

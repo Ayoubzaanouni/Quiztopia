@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizes index{% endblock %}
+
+{% block body %}
+    <h1>Quizes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Created by</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Type</th>
+                <th>Created_at</th>
+                <th>Max_tries</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+        {% if item.quiz.isIsPublic() == 1 and item.quiz.getUserId().id != app.user.id%}
+            <tr>
+
+                <td><a href="{{ path('app_a_user', {'id': item.quiz.getUserId().id}) }}">{{ item.user_name }}</a></td>
+                <td>{{ item.quiz.title }}</td>
+                <td>{{ item.quiz.description }}</td>
+                <td>{{ item.quiz.code }}</td>
+                <td>{{ item.quiz.isIsPublic() == 1 ? 'Public' : 'Private' }}</td>
+                <td>{{ item.quiz.getCreatedAt1() is not null ? item.quiz.getCreatedAt1() : '' }}</td>
+                <td>{{ item.quiz.getMaxTries() }}</td>
+
+
+                <td>
+                    <a href="{{ path('app_quizes_show', {'id': item.quiz.id}) }}">show</a>
+                    <a href="#">join</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_quizes_new') }}">Create new</a>
+{% endblock %}

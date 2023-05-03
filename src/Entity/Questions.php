@@ -23,8 +23,13 @@ class Questions
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
-    #[ORM\OneToMany(mappedBy: 'quest_id', targetEntity: Answers::class, orphanRemoval: true)]
-    private Collection $answers;
+    // #[ORM\OneToMany(mappedBy: 'quest_id', targetEntity: Answers::class, orphanRemoval: true)]
+    // private Collection $answers;
+//     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answers::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+// private Collection $answers;
+#[ORM\OneToMany(mappedBy: 'quest_id', targetEntity: Answers::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+private Collection $answers;
+
 
     public function __construct()
     {

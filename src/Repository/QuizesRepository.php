@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Quizes;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,8 +22,13 @@ class QuizesRepository extends ServiceEntityRepository
         parent::__construct($registry, Quizes::class);
     }
 
-    public function save(Quizes $entity, bool $flush = false): void
+    public function save(Quizes $entity,Users $user, bool $flush = false): void
     {
+        $code = bin2hex(random_bytes(4));
+        $code = substr($code, 0, 5);
+        $entity->setCode($code);
+        $entity->setCreatedAt();
+        $entity->setUserId($user);
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {

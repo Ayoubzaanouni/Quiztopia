@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Quizes{% endblock %}
+
+{% block body %}
+    {% if app.user.id == user_id %}
+        <h1>Edit Quizes</h1>
+
+        {{ include('quizes/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('quizes/_delete_form.html.twig') }}
+    {% else %}
+        this quiz is not yours
+    {% endif %}
+    <a href="{{ path('app_quizes_index') }}">back to list</a>
+{% endblock %}

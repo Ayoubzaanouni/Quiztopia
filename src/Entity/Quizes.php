@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Cast\String_;
 
 #[ORM\Entity(repositoryClass: QuizesRepository::class)]
 class Quizes
@@ -17,7 +18,8 @@ class Quizes
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'quizes')]
-    private ?users $user_id = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $user_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -58,6 +60,8 @@ class Quizes
     {
         return $this->user_id;
     }
+
+
 
     public function setUserId(?users $user_id): self
     {
@@ -119,12 +123,20 @@ class Quizes
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function getCreatedAt1(): ?String
     {
-        $this->created_at = $created_at;
+        $date = $this->created_at;
+        $dateString = $date->format('Y-m-d H:i:s');
 
-        return $this;
+        return $dateString;
     }
+
+    public function setCreatedAt(): self
+{
+    $this->created_at = new \DateTimeImmutable();
+    return $this;
+}
+
 
     public function getMaxTries(): ?int
     {

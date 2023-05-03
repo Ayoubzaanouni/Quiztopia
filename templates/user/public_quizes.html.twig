@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizzes{% endblock %}
+
+{% block body %}
+    <h1>Quizzes</h1>
+    <ul>
+        {% for quiz in quizes %}
+        {% if quiz.isIspublic %}
+            <li>{{ quiz.title }} &nbsp; {{ quiz.description }}&nbsp;  {{ quiz.code }} </li>
+            
+        {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

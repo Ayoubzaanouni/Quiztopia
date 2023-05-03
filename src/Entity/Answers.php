@@ -14,19 +14,28 @@ class Answers
     #[ORM\Column]
     private ?int $id = null;
 
+    // #[ORM\ManyToOne(inversedBy: 'answers')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?Questions $quest_id = null;
+
+    // #[ORM\ManyToOne(inversedBy: 'answers')]
+    // #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(inversedBy: 'answers')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Questions $quest_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'answers')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Questions $quiz_id = null;
+
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?int $quiz_id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
     #[ORM\Column]
     private ?bool $is_correct = null;
+
+    #[ORM\ManyToOne]
+    private ?Quizes $quiz_id = null;
 
     public function getId(): ?int
     {
@@ -45,17 +54,17 @@ class Answers
         return $this;
     }
 
-    public function getQuizId(): ?Questions
-    {
-        return $this->quiz_id;
-    }
+    // public function getQuizId(): ?Questions
+    // {
+    //     return $this->quiz_id;
+    // }
 
-    public function setQuizId(?Questions $quiz_id): self
-    {
-        $this->quiz_id = $quiz_id;
+    // public function setQuizId(?Questions $quest_id): self
+    // {
+    //     $this->quiz_id = $quest_id->getId();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getText(): ?string
     {
@@ -77,6 +86,18 @@ class Answers
     public function setIsCorrect(bool $is_correct): self
     {
         $this->is_correct = $is_correct;
+
+        return $this;
+    }
+
+    public function getQuizId(): ?Quizes
+    {
+        return $this->quiz_id;
+    }
+
+    public function setQuizId(?Quizes $quiz_id): self
+    {
+        $this->quiz_id = $quiz_id;
 
         return $this;
     }
