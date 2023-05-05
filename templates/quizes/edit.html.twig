@@ -6,8 +6,19 @@
     {% if app.user.id == user_id %}
         <h1>Edit Quizes</h1>
 
+        
         {{ include('quizes/_form.html.twig', {'button_label': 'Update'}) }}
         {{ include('quizes/_delete_form.html.twig') }}
+    {% for question in questions %}
+    <h3>{{ question.text }}</h3>
+    <ul>
+        {% for answer in question.answers %}
+            <li>{{ answer.text }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+    
     {% else %}
         this quiz is not yours
     {% endif %}

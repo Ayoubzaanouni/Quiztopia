@@ -74,8 +74,14 @@ class QuestionsController extends AbstractController
     
             // return $this->redirectToRoute('app_questions_new', ['quiz_id' => $quiz->getId()]);
 
-            return $this->redirectToRoute('app_user_quizes', [], Response::HTTP_SEE_OTHER);
-        }
+
+            if ($request->request->has('save_and_add_another')) {
+                // redirect to the new question form
+                return $this->redirectToRoute('app_questions_new', ['quiz_id' => $quiz->getId()]);
+            } else {
+                // redirect to some other page
+                return $this->redirectToRoute('app_user_quizes');
+            }        }
     
         return $this->renderForm('questions/new.html.twig', [
             'question' => $question,

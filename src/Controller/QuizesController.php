@@ -94,6 +94,7 @@ class QuizesController extends AbstractController
             'quize' => $quize,
             'form' => $form,
             'user_id'=>$user_id,
+            'questions' => $quize->getQuestions(),
         ]);
     }
 

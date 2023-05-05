@@ -13,8 +13,9 @@
         {% endfor %}
     </ul>
     <button type="button" class="add_item_link" data-collection-holder-class="answers">Add an answer</button>
+ <button class="btn" name="save_and_add_another" value="true">{{ button_label|default('Add another question') }}</button>
 
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn" name="save_and_go_quiz" value="true">{{ button_label|default('Quiz complited') }}</button>
 {{ form_end(form) }}
 
 <script>
