@@ -1,0 +1,64 @@
+.navbar-brand img {
+    height: 55px;
+}
+body {
+    background: #f0efef;
+    overflow: hidden;
+    min-height: 100vh;
+    width: 100vw;
+}
+.btn-outline-success {
+    border-radius: 50px;
+    margin: 0 30px 0 0 ;
+    width: 140px;
+}
+.btn-outline-info {
+    border-radius: 50px;
+    margin: 0 30px 0 0 ;
+    width: 140px;
+}
+.btn-primary {
+    border-radius: 50px;
+    margin: 0 30px 0 0 ;
+    width: 140px;
+}
+.home-text08 {
+    color: rgba(51, 51, 51, 1);
+    width: 494px;
+    height: auto;
+    position: absolute;
+    font-size: 64px;
+    font-style: Black;
+    text-align: left;
+    font-family: Poppins;
+    font-weight: 900;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-text15 {
+    top: 359px;
+    left: 30px;
+    color: rgba(130, 130, 130, 1);
+    width: 555px;
+    height: auto;
+    position: absolute;
+    font-size: 24px;
+    font-style: Black;
+    text-align: left;
+    font-family: Poppins;
+    font-weight: 900;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .smaller-image {
+    width: 600px;
+   
+  }
+  
+ 
+
+ 
+  
+  
