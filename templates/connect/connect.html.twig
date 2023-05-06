@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Log in or register</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {{ form_start(registrationForm) }}
+        {{ form_widget(registrationForm.user_name) }}
+        {{ form_widget(registrationForm.email) }}
+        {{ form_widget(registrationForm.plainPassword) }}
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    {{ form_end(registrationForm) }}
+
+    <hr>
+
+    <form action="{{ path('app_login') }}" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="_password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+
+{% endblock %}
