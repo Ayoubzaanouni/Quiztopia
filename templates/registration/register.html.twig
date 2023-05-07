@@ -49,11 +49,8 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your account</span>
-            <label for="inputEmail">Email</label>
             <input type="email"  placeholder="Email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-             <label for="inputPassword">Password</label>
             <input type="password"  placeholder="Password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
             <a href="#">Forgot your password?</a>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     <button class="btn btn-lg btn-primary" name="login" type="submit">
