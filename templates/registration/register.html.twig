@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Document</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         {{ form_start(registrationForm) }}
             <h1>Register</h1>
+    <input type="hidden" name="form_type" value="register">
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
@@ -21,13 +23,25 @@
             <span>or use your email for registration</span>
             {{ form_row(registrationForm.user_name) }}
             {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword) }}
+            {{ form_row(registrationForm.plainPassword.first) }}
+            {{ form_row(registrationForm.plainPassword.second) }}
             {{ form_row(registrationForm.agreeTerms) }}
-            <button type="submit" class="btn">Register</button>
+            <div class="g-recaptcha" data-sitekey="6LeYaewlAAAAAFb-P1FChyuUJHZCnjPRj-lW9D1l"></div>
+
+            <button type="submit" name="register" class="btn">Register</button>
     {{ form_end(registrationForm) }}
     </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form method="post">
+         {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    <input type="hidden" name="form_type" value="login">
             <h1>Sign in</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -35,11 +49,18 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <label for="inputEmail">Email</label>
+            <input type="email"  placeholder="Email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+             <label for="inputPassword">Password</label>
+            <input type="password"  placeholder="Password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    <button class="btn btn-lg btn-primary" name="login" type="submit">
+        Sign in
+    </button>
         </form>
+
     </div>
     <div class="overlay-container">
         <div class="overlay">
@@ -57,6 +78,7 @@
         </div>
     </div>
 </div>
+</form>
 
 <script src="{{ asset('js/script.js') }}"></script>
 </body>

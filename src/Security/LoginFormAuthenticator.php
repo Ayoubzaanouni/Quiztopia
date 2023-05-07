@@ -21,6 +21,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
+    public const LOGIN_ROUTE2 = 'app_register';
+
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
@@ -53,6 +55,11 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
+        if ($request->request->has('register')) {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        }
+        else{
+            return $this->urlGenerator->generate(self::LOGIN_ROUTE2);
+        }
     }
 }
