@@ -231,4 +231,14 @@ background: linear-gradient(to right, #00aaff, #00ffaa);
 	width: 40px;
 }
 
-
+.form-control {
+	border-radius: 50px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+	
+}
+.form-row {
+	border-radius: 50px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}

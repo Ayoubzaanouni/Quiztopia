@@ -15,6 +15,9 @@
       letter-spacing: 2px;
       cursor: pointer;
     }
+    body{
+        overflow: hidden;
+    }
   </style>
 </head>
 <body>
@@ -29,13 +32,14 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your email for registration</span>
-            {{ form_row(registrationForm.user_name) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword.first) }}
-            {{ form_row(registrationForm.plainPassword.second) }}
+            {{ form_row(registrationForm.user_name, {'attr': {'class': 'form-row'}}) }}
+            {{ form_row(registrationForm.email, {'attr': {'class': 'form-row'}}) }}
+            {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'form-row'}}) }}
+            {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'form-row'}}) }}
+
              <h2 id="captcha"></h2>
   <br>
-  <input type="text" id="userInput" placeholder="Enter the CAPTCHA">
+  <input type="text" class="form-row" id="userInput" placeholder="Enter the CAPTCHA">
             {{ form_row(registrationForm.agreeTerms) }}
             {# <div class="g-recaptcha" data-sitekey="6LeYaewlAAAAAFb-P1FChyuUJHZCnjPRj-lW9D1l"></div> #}
 

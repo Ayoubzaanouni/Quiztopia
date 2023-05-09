@@ -6,9 +6,7 @@
 }
 body {
     background: #ffffff;
-    overflow: hidden;
-    min-height: 100vh;
-    width: 100vw;
+
 }
 .btn-outline-success {
     border-radius: 50px;
@@ -78,4 +76,87 @@ body {
     font-size: 20px;
     margin-left: 10px;
 }
-  
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 300px;
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.action-buttons a {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+.create {
+  width: 50px;
+  text-align: center;
+  padding: 8px;
+  background-color: #3a77b8;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.but:hover {
+  background-color: #0056b3;
+}
+.action-buttons .btn {
+  flex: 1;
+  margin-left: 5px;
+}
+.action-buttons .btn:first-child {
+  margin-left: 0;
+}
