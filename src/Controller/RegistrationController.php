@@ -21,12 +21,12 @@ class RegistrationController extends AbstractController
     {
         
         $form_type = $request->get('form_type');
-        
+        $connect = $request->query->get('connect');
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         
-        echo"$form_type";
+
         if ($form_type === 'register' && $request->request->has('register')) {
             if ($form->isSubmitted() && $form->isValid()) {
                 // encode the plain password
@@ -54,7 +54,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
             'last_username' => $lastUsername,
-            'error' => $error,
+            'error' => $error,'connect' => $connect,
         ]);
     }
 }

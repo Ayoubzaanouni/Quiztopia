@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Document</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {# <script src="https://www.google.com/recaptcha/api.js" async defer></script> #}
+    <style>
+    #captcha {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 <div class="container" id="container">
@@ -25,10 +33,13 @@
             {{ form_row(registrationForm.email) }}
             {{ form_row(registrationForm.plainPassword.first) }}
             {{ form_row(registrationForm.plainPassword.second) }}
+             <h2 id="captcha"></h2>
+  <br>
+  <input type="text" id="userInput" placeholder="Enter the CAPTCHA">
             {{ form_row(registrationForm.agreeTerms) }}
-            <div class="g-recaptcha" data-sitekey="6LeYaewlAAAAAFb-P1FChyuUJHZCnjPRj-lW9D1l"></div>
+            {# <div class="g-recaptcha" data-sitekey="6LeYaewlAAAAAFb-P1FChyuUJHZCnjPRj-lW9D1l"></div> #}
 
-            <button type="submit" name="register" class="btn">Register</button>
+            <button type="submit" onclick="validateCaptcha()" name="register" class="btn">Register</button>
     {{ form_end(registrationForm) }}
     </div>
     <div class="form-container sign-in-container">
@@ -63,13 +74,13 @@
         <div class="overlay">
             <div class="overlay-panel overlay-left">
                 <h1>Welcome Back!</h1>
-                <p>Enter your personal details and start your quiz journey!</p>
+                <h5>Enter your personal details and start your quiz journey!</h5>
                 
                 <button class="ghost" id="signIn">Sign In</button>
             </div>
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
-                <p>Connect to your quiz space, and face the challenges!</p>
+                <h5>Connect to your quiz space, and face the challenges!</h5>
                 <button class="ghost" id="signUp">Sign Up</button>
             </div>
         </div>
@@ -77,6 +88,15 @@
 </div>
 </form>
 
+ {% if connect == 'register' %}
+    <script>
+    window.onload = function() {
+        console.log('signup');
+        let signUpButton = document.getElementById('signUp');
+        signUpButton.click();
+    };
+    </script>
+{% endif %}
 <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
