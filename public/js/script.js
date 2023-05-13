@@ -35,3 +35,16 @@ signInButton.addEventListener('click', () => {
 
   // Generate the initial CAPTCHA on page load
   window.addEventListener('load', generateCaptcha);
+
+// for active buttons inside the sidebar
+  document.addEventListener("DOMContentLoaded", function() {
+	const buttons = document.querySelectorAll('.sidebar .btn');
+	buttons.forEach(function(button) {
+		button.addEventListener('click', function() {
+			buttons.forEach(function(btn) {
+				btn.classList.remove('active');
+			});
+			this.classList.add('active');
+		});
+	});
+});

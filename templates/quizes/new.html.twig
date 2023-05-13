@@ -5,11 +5,9 @@
 {% block body %}
     <h1>Create new Quizes</h1>
 
-{% if app.user %}
+    {% if app.user %}
+        {{ include('quizes/_form.html.twig') }}
 
-  {{ include('quizes/_form.html.twig') }}
-  
-    <a href="{{ path('app_quizes_index') }}">back to list</a>
-
-{% endif %}
+        <a href="{{ path('app_quizes_index') }}" class="btn btn-success">Back to List</a>
+    {% endif %}
 {% endblock %}

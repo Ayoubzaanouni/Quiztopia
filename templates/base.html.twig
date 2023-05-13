@@ -1,49 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-           
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
-                <form class="form-inline d-flex justify-content-center">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Enter code">
-                    <button class="btn btn-lg btn-primary my-2 my-sm-0" type="submit">GO</button>
-                </form>
+    {% endblock %}
+    
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        <script src="js/script.js"></script> 
+    {% endblock %}
+</head>
+<body>
+    {% include 'navbar/nav.html.twig' %}
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-lg-2 col-md-3 sidebar">
+                <div class="first_block">
+                    <!-- Button groups inside the sidebar -->
+                    <div class="d-flex flex-column">
+                        <a type="button" href="{{ path('app_quizes_index') }}" class="btn btn-outline-secondary btn-block mb-2 {% if app.request.attributes.get('_route') == 'app_quizes_index' %}active{% endif %}">Dashboard</a>
+                        <a type="button" href="{{ path('app_user') }}" class="btn btn-outline-secondary btn-block mb-2 {% if app.request.attributes.get('_route') == 'app_user' %}active{% endif %}">My Profile</a>
+                        <a type="button" class="btn btn-outline-secondary btn-block mb-3">Button 3</a>
+                    </div>
+                    <!-- Button groups inside the sidebar -->
+                    {% block menu %}
+                    <p>Content goes here</p>
+                    {% endblock %}
+                    <a href="/{{app.user ? 'logout' : 'login'}}">{{app.user ? 'Logout' : 'Login'}}</a>
+                </div>
             </div>
-        </nav>
-        {% block body %}
-            
+            <div class="col-lg-10 col-md-9">
+                {% block body %}
+                <h1>Welcome!</h1>
+                <p>Body content goes here</p>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <footer>
+        {% block footer %}
         {% endblock %}
-        <footer>
-            {% block footer %}
-                <a href="/{{app.user ? 'logout' : 'login'}}">{{app.user ? 'Logout' : 'Login'}}</a>
-            {% endblock %}
-        </footer>
-        <script>
-            <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-            {{ encore_entry_script_tags('app') }}
-       </script>
-    </body>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    {{ encore_entry_script_tags('app') }}
+</body>
 </html>

@@ -5,36 +5,38 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 {% endblock %}
+
+{% block menu %}
+<a href="{{ path('app_quizes_new') }}" class="btn create btn-outline-success">Create Quizz</a><br>
+{% endblock %}
 {% block body %}
-    <h1>Quizes index</h1>
     
-    <div class="card-container">
+    <div class="card-container bounce-in-top">
         {% for item in data %}
-        {% if item.quiz.isIsPublic() == 1 and item.quiz.getUserId().id != app.user.id %}
-            <div class="card">
-                <div class="card-header">
-                    <a href="{{ path('app_a_user', {'id': item.quiz.getUserId().id}) }}">{{ item.user_name }}</a>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.quiz.title }}</h5>
-                    <p class="card-text">{{ item.quiz.description }}</p>
-                    <p class="card-text"><strong>Code:</strong> {{ item.quiz.code }}</p>
-                    <p class="card-text"><strong>Type:</strong> {{ item.quiz.isIsPublic() == 1 ? 'Public' : 'Private' }}</p>
-                    <p class="card-text"><strong>Created at:</strong> {{ item.quiz.getCreatedAt1() is not null ? item.quiz.getCreatedAt1() : '' }}</p>
-                    <p class="card-text"><strong>Max tries:</strong> {{ item.quiz.getMaxTries() }}</p>
-                    <div class="card-actions">
-                        <div class="action-buttons">
-                            <a href="{{ path('app_quizes_show', {'id': item.quiz.id}) }}" class="btn but btn-primary">Show</a>
-                            <a href="#" class="btn but btn-success">Join</a>
-                        </div>
+    {% if item.quiz.isIsPublic() == 1 and item.quiz.getUserId().id != app.user.id %}
+        <div class="card bounce-in-top">
+            <div class="card-header">
+                <a href="{{ path('app_a_user', {'id': item.quiz.getUserId().id}) }}">{{ item.user_name }}</a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ item.quiz.title }}</h5>
+                <p class="card-text">{{ item.quiz.description }}</p>
+                <p class="card-text"><strong>Code:</strong> {{ item.quiz.code }}</p>
+                <p class="card-text"><strong>Type:</strong> {{ item.quiz.isIsPublic() == 1 ? 'Public' : 'Private' }}</p>
+                <p class="card-text"><strong>Created at:</strong> {{ item.quiz.getCreatedAt1() is not null ? item.quiz.getCreatedAt1() : '' }}</p>
+                <p class="card-text"><strong>Max tries:</strong> {{ item.quiz.getMaxTries() }}</p>
+                <div class="card-actions">
+                    <div class="action-buttons">
+                        <a type="button" href="{{ path('app_quizes_show', {'id': item.quiz.id}) }}" class="btn but btn-primary">Show</a>
+                        <a type="button" href="#" class="btn but btn-primary">Join</a>
                     </div>
                 </div>
             </div>
-            {% endif %}
-        {% else %}
-            <p>No records found.</p>
-        {% endfor %}
-    </div>
+        </div>
+    {% endif %}
+{% else %}
+    <p>No records found.</p>
+{% endfor %}
 
-    <a href="{{ path('app_quizes_new') }}" class="btn create btn-outline-success">Create new</a>
+    </div>
 {% endblock %}

@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Hello User!{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-  <h3> {{app.user.getUserName()}}</h3>
-  <h3> {{app.user.email}}</h3>
-  <h2>change password </h2>
-  <button class="btn btn-primary" onclick="window.location.href='{{ path('app_user_quizes')}}'">show personal quizes</button>
 
+<div class="profile-wrapper roll-in-blurred-top">
+  <div class="profile-card">
+    <span class="profile-label">Profile Name:</span> <h3 class="profile-name">{{ app.user.getUserName() }}</h3>
+    <span class="profile-label">Profile Email:</span> <h3 class="profile-email">{{ app.user.email }}</h3>
+    <h5>Change Password</h5>
+    <div class="profile-actions">
+      <button class="btn btn-primary showPerso" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>
+    </div>
+  </div>
 </div>
 {% endblock %}

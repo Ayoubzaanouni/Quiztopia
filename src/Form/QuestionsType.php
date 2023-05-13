@@ -13,11 +13,18 @@ class QuestionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('text')
+            ->add('text', null, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('answers', CollectionType::class, [
                 'entry_type' => AnswersType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'attr' => [
+                    'class' => 'answers-collection',
+                ],
             ]);
     }
 
