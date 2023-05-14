@@ -4,10 +4,54 @@
 
 {% block body %}
     <h1>Edit Questions</h1>
+    {# {{ include('questions/_form.html.twig') }} #}
 
-    {{ include('questions/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(form) }}
+    {{ form_row(form.text) }}
 
-    <a href="{{ path('app_questions_index') }}">back to list</a>
+    <h3>Answers</h3>
+    <ul class="answers"
+        data-index="{{ form.answers|length > 0 ? form.answers|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">
+        {% for answer in form.answers %}
+            <li>
+            
+                {{ form_row(answer.text) }}
+                {{ form_row(answer.is_correct) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <button type="button" class="add_item_link" data-collection-holder-class="answers">Add an answer</button>
+ <button class="btn" name="save_and_add_another" value="true">{{ button_label|default('Add another question') }}</button>
+
+    <button class="btn" name="save_and_go_quiz" value="true">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+<script>
+    const addFormToCollection = (e) => {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder
+            .dataset
+            .prototype
+            .replace(
+                /__name__/g,
+                collectionHolder.dataset.index
+            );
+
+        collectionHolder.appendChild(item);
+
+        collectionHolder.dataset.index++;
+    };
+
+    document.querySelectorAll('.add_item_link').forEach(btn => {
+        btn.addEventListener("click", addFormToCollection);
+    });
+</script>
+    <a href="{{ app.request.headers.get('referer') }}">Cancel</a>
+
 
     {{ include('questions/_delete_form.html.twig') }}
 {% endblock %}

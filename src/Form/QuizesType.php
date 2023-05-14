@@ -28,9 +28,7 @@ class QuizesType extends AbstractType
             ->add('is_public', CheckboxType::class, [
                 'label' => 'Is Public?',
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input ',
-                ],
+               
                 'label_attr' => [
                     'class' => 'form-check-label align-items-center mb-3',
                 ],

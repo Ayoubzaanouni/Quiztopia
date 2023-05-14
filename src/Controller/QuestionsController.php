@@ -99,15 +99,35 @@ class QuestionsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_questions_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Questions $question, QuestionsRepository $questionsRepository): Response
+    public function edit(Request $request, Questions $question, QuestionsRepository $questionsRepository, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(QuestionsType::class, $question);
         $form->handleRequest($request);
 
+        $quiz = $em->getRepository(Quizes::class)->find($question->getQuizId());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $questionsRepository->save($question, true);
 
-            return $this->redirectToRoute('app_questions_index', [], Response::HTTP_SEE_OTHER);
+            $answersData = $form->get('answers')->getData();
+            foreach ($answersData as $answerData) {
+
+                $answerData->setQuestId($question);
+                $answerData->setQuizId($quiz);
+                $question->addAnswer($answerData);
+
+            }
+            $questionsRepository->save($question, true);
+
+
+
+            if ($request->request->has('save_and_add_another')) {
+                // redirect to the new question form
+                return $this->redirectToRoute('app_questions_new', ['quiz_id' => $quiz->getId()]);
+            } else {
+                // redirect to some other page
+                return $this->redirectToRoute('app_user_quizes');
+            }  
         }
 
         return $this->renderForm('questions/edit.html.twig', [
@@ -122,7 +142,9 @@ class QuestionsController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
             $questionsRepository->remove($question, true);
         }
+        $referer = $request->headers->get('referer');
 
-        return $this->redirectToRoute('app_questions_index', [], Response::HTTP_SEE_OTHER);
-    }
+    return $this->redirectToRoute('app_user_quizes');
+
+    }   
 }

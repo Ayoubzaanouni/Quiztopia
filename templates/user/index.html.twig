@@ -8,16 +8,24 @@
 {% endblock %}
 
 {% block body %}
+<style>
+.container {
+  display: flex;
+  justify-content: center;
+}
 
-
-<div class="profile-wrapper roll-in-blurred-top">
-  <div class="profile-card">
-    <span class="profile-label">Profile Name:</span> <h3 class="profile-name">{{ app.user.getUserName() }}</h3>
-    <span class="profile-label">Profile Email:</span> <h3 class="profile-email">{{ app.user.email }}</h3>
-    <h5>Change Password</h5>
-    <div class="profile-actions">
-      <button class="btn btn-primary showPerso" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>
+</style>
+<div class="container">
+  <div class="profile-wrapper roll-in-blurred-top">
+    <div class="profile-card">
+      <span class="profile-label">Profile Name:</span> <h3 class="profile-name">{{ app.user.getUserName() }}</h3>
+      <span class="profile-label">Profile Email:</span> <h3 class="profile-email">{{ app.user.email }}</h3>
+      <h5>Change Password</h5>
+      <div class="profile-actions">
+        <button class="btn btn-primary showPerso" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>
+      </div>
     </div>
   </div>
 </div>
+
 {% endblock %}

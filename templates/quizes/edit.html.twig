@@ -9,10 +9,16 @@
         
         {{ include('quizes/_form.html.twig', {'button_label': 'Update'}) }}
         {{ include('quizes/_delete_form.html.twig') }}
+        <a href="{{ path('app_questions_new', {'quiz_id': quize.id}) }}">new question</a>
     {% for question in questions %}
     <h3>{{ question.text }}</h3>
+        {{ include('questions/_delete_form.html.twig') }}
+       <a href="{{ path('app_questions_edit', {'id': question.id}) }}">edit</a>
+
     <ul>
         {% for answer in question.answers %}
+            {{ include('answers/_delete_form.html.twig') }}
+
             <li>{{ answer.text }}</li>
         {% endfor %}
     </ul>

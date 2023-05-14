@@ -73,6 +73,7 @@ class AnswersController extends AbstractController
             $answersRepository->remove($answer, true);
         }
 
-        return $this->redirectToRoute('app_answers_index', [], Response::HTTP_SEE_OTHER);
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
     }
 }
