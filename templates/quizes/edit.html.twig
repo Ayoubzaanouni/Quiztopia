@@ -3,22 +3,21 @@
 {% block title %}Edit Quizzes{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app_quizes_index') }}" class="btn btn-secondary">Back to List</a>
+    <a href="{{ path('app_quizes_index') }}" class="btn back btn-info">Back to List</a>
 <div class="container mt-4">
     {% if app.user.id == user_id %}
         <h1 class="mb-4">Edit Quizzes</h1>
 
-        {{ include('quizes/_form.html.twig', {'button_label': 'Update', 'form_class': 'mt-4'}) }}
+        {{ include('quizes/_form.html.twig', {'button_label': 'Update', 'form_class': 'mt-4,'}) }}
         {{ include('quizes/_delete_form.html.twig', {'form_class': 'mt-2'}) }}
         <a  style='display:block;' href="{{ path('app_questions_new', {'quiz_id': quize.id}) }}" class="btn btn-primary mt-2">New Question</a>
-
        <br>
        <ol>
         {% for question in questions %}
         <li><h3 style='display:inline;' class="mt-4">{{ question.text }}</h3> 
-        {{ include('questions/_delete_form.html.twig', {'form_class': 'mt-2'}) }}
-        <a style='display:inline;' type="button" href="{{ path('app_questions_edit', {'id': question.id}) }}" class="edque btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
-</li> 
+            {{ include('questions/_delete_form.html.twig', {'form_class': 'mt-2'}) }}
+            <a style='display:inline;' type="button" href="{{ path('app_questions_edit', {'id': question.id}) }}" class="edque btn-success"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+        </li> 
         <ul start="1" class="mt-2">
             {% for answer in question.answers %}
                 <li>{{ answer.text }} {{ include('answers/_delete_form.html.twig', {'form_class': 'ml-4'}) }} </li>

@@ -23,7 +23,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ item.quiz.title }}</h5>
                 <p class="card-text">{{ item.quiz.description }}</p>
-                <p class="card-text" id="code"><strong>Code:</strong>{{ item.quiz.code }}</p>
+                <p class="card-text" id="code"><strong>Code: </strong>{{ item.quiz.code }}</p>
                 <p class="card-text"><strong>Type:</strong> {{ item.quiz.isIsPublic() == 1 ? 'Public' : 'Private' }}</p>
                 <p class="card-text"><strong>Created at:</strong> {{ item.quiz.getCreatedAt1() is not null ? item.quiz.getCreatedAt1() : '' }}</p>
                 <p class="card-text"><strong>Max tries:</strong> {{ item.quiz.getMaxTries() }}</p>

@@ -352,10 +352,32 @@ html, body {
   border-radius: 50px;
 
 }
+.back {
+  margin-top: 15px;
+  margin-right: 20px;
+  top: 0;
+  right: 0;
+  position: absolute;
+  border-radius: 50px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
 .edque { /*edit question*/
-  width: 80px;
+  width: 35px;
+  height: 30px;
+  padding: 2px;
   text-align: center;
   border-radius: 50px;
+}
+.delqui { /*delete quizz*/
+    margin: 0 30px 0 0;
+    width: 180px;
+    font-size: 1.25rem;
+    border: none;
+    display: inline;
+}
+.delrep {
+  background-color: #4d90a1;
+  border: none;
 }
 .edque:hover{
   text-decoration: none;
