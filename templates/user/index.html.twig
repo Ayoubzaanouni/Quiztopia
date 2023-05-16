@@ -1,31 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello User!{% endblock %}
+{% block title %}User Profile{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+    </style>
 {% endblock %}
 
 {% block body %}
-<style>
-.container {
-  display: flex;
-  justify-content: center;
-}
-
-</style>
-<div class="container">
-  <div class="profile-wrapper roll-in-blurred-top">
-    <div class="profile-card">
-      <span class="profile-label">Profile Name:</span> <h3 class="profile-name">{{ app.user.getUserName() }}</h3>
-      <span class="profile-label">Profile Email:</span> <h3 class="profile-email">{{ app.user.email }}</h3>
-      <h5>Change Password</h5>
-      <div class="profile-actions">
-        <button class="btn btn-primary showPerso" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="profile-card text-center">
+        <img src="{{ asset(app.user.getProfileImage()) }}" alt="Profile Image" class="profile-image">
+        <h2>{{ app.user.getUserName() }}</h2>
+        <span class="profile-label">Profile Email:</span>
+        <h3 class="profile-email">{{ app.user.email }}</h3>
+        <p class="profile-bio">Welcome to your profile page! </p>
+        <h5>Change Password</h5>
+        <div class="profile-actions">
+          <button class="show-personal-quizzes" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

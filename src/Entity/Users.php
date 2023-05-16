@@ -83,6 +83,11 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
+    // profile imagee
+    public function getProfileImage()
+    {
+        return '/images/profile.png';
+    }
 
     /**
      * @see UserInterface

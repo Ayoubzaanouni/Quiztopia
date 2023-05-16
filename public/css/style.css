@@ -216,47 +216,53 @@ html, body {
   align-items: center;
 }
 /*profile card*/
+
+
 .profile-card {
-  background-color: #2a4d81;
-  color: white;
-  border-radius: 8px;
-  padding: 1em;
+  background-color: #ffffff;
+  padding: 2em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  align-items: center;
-  text-align: center;
+  border-radius: 8px;
 }
 
-.profile-card .profile-label {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 0.5em;
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1em;
 }
 
-.profile-card .profile-name,
-.profile-card .profile-email {
+.profile-name {
   font-size: 24px;
   margin-bottom: 0.5em;
 }
 
-.profile-card h5 {
+.profile-email {
+  font-size: 18px;
   margin-bottom: 1em;
 }
 
-.profile-card .profile-actions {
-  margin-top: 1em;
+.profile-bio {
+  font-size: 16px;
+  margin-bottom: 1em;
 }
 
-.profile-card button.showPerso {
-  width: 250px;
+.show-personal-quizzes {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
   border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.profile-card {
-  animation: roll-in-blurred-top 0.9s both;
+.show-personal-quizzes:hover {
+  background-color: #0056b3;
 }
-
-.roll-in-blurred-top{animation:roll-in-blurred-top .6s cubic-bezier(.23,1.000,.32,1.000) both}
-@keyframes roll-in-blurred-top{0%{transform:translateY(-800px) rotate(-720deg);filter:blur(50px);opacity:0}100%{transform:translateY(0) rotate(0deg);filter:blur(0);opacity:1}}
 
 /*quizes cards*/
 
