@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_answers_delete', {'id': answer.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ answer.id) }}">
-    <button class="btn-danger">Delete</button>
+<form method="post" style='display:inline;' action="{{ path('app_answers_delete', {'id': answer.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input style='display:inline;' type="hidden" name="_token" value="{{ csrf_token('delete' ~ answer.id) }}">
+    <button style='display:inline;' class="fa-sharp fa-solid fa-eraser  btn-light"></button> 
 </form>
