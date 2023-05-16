@@ -37,6 +37,16 @@
                 <th>Max_tries</th>
                 <td>{{ quize.maxTries }}</td>
             </tr>
+            <tr>
+            <td><img id="qr-code-{{ quize.id }}" src="" alt=""/>
+                <script>
+                    var image = document.getElementById("qr-code-{{ quize.id }}");
+                    var input = "{{ quize.code }}";
+                    var api = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(input);
+                    image.src = api;
+                </script>
+            </td>
+            </tr>
         </tbody>
     </table>
     {% else %}

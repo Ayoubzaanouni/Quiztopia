@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Quizes index{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -9,10 +10,11 @@
 {% block menu %}
 <a href="{{ path('app_quizes_new') }}" class="btn create btn-outline-success">Create Quizz</a><br>
 {% endblock %}
+
 {% block body %}
     
     <div class="card-container bounce-in-top">
-        {% for item in data %}
+    {% for item in data %}
     {% if item.quiz.isIsPublic() == 1 and item.quiz.getUserId().id != app.user.id %}
         <div class="card bounce-in-top">
             <div class="card-header">
@@ -21,10 +23,19 @@
             <div class="card-body">
                 <h5 class="card-title">{{ item.quiz.title }}</h5>
                 <p class="card-text">{{ item.quiz.description }}</p>
-                <p class="card-text"><strong>Code:</strong> {{ item.quiz.code }}</p>
+                <p class="card-text" id="code"><strong>Code:</strong>{{ item.quiz.code }}</p>
                 <p class="card-text"><strong>Type:</strong> {{ item.quiz.isIsPublic() == 1 ? 'Public' : 'Private' }}</p>
                 <p class="card-text"><strong>Created at:</strong> {{ item.quiz.getCreatedAt1() is not null ? item.quiz.getCreatedAt1() : '' }}</p>
                 <p class="card-text"><strong>Max tries:</strong> {{ item.quiz.getMaxTries() }}</p>
+                <div class="qr-code-container">
+                    <img id="qr-code-{{ item.quiz.id }}" src="" alt=""/>
+                </div>
+                <script>
+                    var image = document.getElementById("qr-code-{{ item.quiz.id }}");
+                    var input = "{{ item.quiz.code }}";
+                    var api = "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=" + encodeURIComponent(input);
+                    image.src = api;
+                </script>
                 <div class="card-actions">
                     <div class="action-buttons">
                         <a type="button" href="{{ path('app_quizes_show', {'id': item.quiz.id}) }}" class="btn but btn-primary">Show</a>
