@@ -29,7 +29,7 @@
                     </div>
                     <!-- Button groups inside the sidebar -->
                     {% block menu %}
-                    <p>Content goes here</p>
+                    <a href="{{ path('app_quizes_new') }}" class="btn create btn-outline-success">Create Quizz</a><br>
                     {% endblock %}
                     <a href="/{{app.user ? 'logout' : 'login'}}">{{app.user ? 'Logout' : 'Login'}}</a>
                 </div>
