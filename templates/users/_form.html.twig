@@ -1,0 +1,16 @@
+{% form_theme form _self %}
+
+{% block _user_form %}
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.user_name) }}
+            {{ form_widget(form.user_name, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.old_password) }}
+            {{ form_widget(form.old_password, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <button type="submit" class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+{% endblock %}
