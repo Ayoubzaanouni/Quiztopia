@@ -20,7 +20,7 @@
           <span class="label">Code:</span>{{ quiz.code }}
         </div>
         <div>
-          <a href="{{ path('app_quizes_edit', {'id': quiz.id}) }}">Edit</a>
+          <a type="button" class="btn-primary edit" href="{{ path('app_quizes_edit', {'id': quiz.id}) }}">Edit</a>
         </div>
       </li>
     {% endfor %}

@@ -331,17 +331,30 @@ html, body {
 }
 
 .example-wrapper li:hover {
-  background-color: #f8f9fa;
+  background-color: #5780aa;
+  color: white;
 }
+.edit {
+  border-radius: 50px;
+  width: 70px;
+}
+.btn-danger {
+  border-radius: 50px;
 
+}
+.edque { /*edit question*/
+  width: 80px;
+  text-align: center;
+  border-radius: 50px;
+}
+.edque:hover{
+  text-decoration: none;
+}
 .example-wrapper li a {
   text-decoration: none;
-  color: #007bff;
+  color: #ffffff;
 }
 
-.example-wrapper li a:hover {
-  text-decoration: underline;
-}
 .example-wrapper .label {
   font-weight: bold;
   margin-right: 0.5em;
