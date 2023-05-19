@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
 
+
 #[Route('/quizes')]
 class QuizesController extends AbstractController
 {
@@ -90,13 +91,24 @@ class QuizesController extends AbstractController
         if (!$quize) {
             throw $this->createNotFoundException('Quiz not found.');
         }
+        
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(p.id)')
+        ->from('App\Entity\QuizParticipant', 'p')
+        ->where('p.user_id = :userId')
+        ->andWhere('p.quiz_id = :quizId')
+        ->setParameter('userId', $this->getUser()->getId())
+        ->setParameter('quizId', $quize->getId());
 
+        $count = $qb->getQuery()->getSingleScalarResult();
         if ($request->isMethod('POST')) {
             
         $quiz_participant = new QuizParticipant();
         $quiz_participant->setUserId($this->getUser());
-        $quiz_participant->setNbrTries(1);
         $quiz_participant->setQuizId($quize);
+        
+        
+        $quiz_participant->setNbrTries($count+1);
 
         $formData = $request->request->all();
         foreach ($formData as $questionId => $selectedAnswers) {
@@ -123,6 +135,7 @@ class QuizesController extends AbstractController
             'createdBy'=>$user_name,
             'user_id'=>$user_id,
             'questions'=>$questions,
+            'nbr_tries'=>$count,
             
         ]);
     }

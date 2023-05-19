@@ -38,6 +38,7 @@ class QuizParticipant
 
     public function __construct()
     {
+        $this->nbr_tries = 0;
         $this->answers = new ArrayCollection();
     }
 

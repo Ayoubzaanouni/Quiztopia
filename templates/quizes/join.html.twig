@@ -4,8 +4,6 @@
 
 {% block body %}
     <h1>Quizes</h1>
-{% if (app.user.id == user_id) or (quize.isPublic == 1 ) %}
-    
 
     <table class="table">
         <tbody>
@@ -31,6 +29,11 @@
             </tr>
             <tr>
             {# template.twig #}
+{% if nbr_tries < quize.maxTries %}
+    {# Your code here #}
+
+
+    
 
 <form method="POST" action="#">
     {% for question in questions %}
@@ -44,9 +47,10 @@
             <br>
         {% endfor %}
     {% endfor %}
-    
     <button type="submit">Submit</button>
 </form>
+
+{% endif %}
 
 
 
@@ -62,9 +66,12 @@
             
         </tbody>
     </table>
-    {% else %}
-        this quiz is private
-    {% endif %}
 
-<a href="#">Start Quiz</a>
+{% if nbr_tries < quize.maxTries %}
+   <a href="#">Start Quiz</a>
+{% else %}
+ <h1>
+You have exceeded the maximum number of tries.</h1>
+{% endif %}
+
 {% endblock %}
