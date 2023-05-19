@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}QuizParticipant index{% endblock %}
+
+{% block body %}
+    <h1>QuizParticipant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nbr_tries</th>
+                <th>Score</th>
+                <th>Joined_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for quiz_participant in quiz_participants %}
+            <tr>
+                <td>{{ quiz_participant.id }}</td>
+                <td>{{ quiz_participant.nbrTries }}</td>
+                <td>{{ quiz_participant.score }}</td>
+                <td>{{ quiz_participant.joinedAt ? quiz_participant.joinedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_quiz_participant_show', {'id': quiz_participant.id}) }}">show</a>
+                    <a href="{{ path('app_quiz_participant_edit', {'id': quiz_participant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_quiz_participant_new') }}">Create new</a>
+{% endblock %}

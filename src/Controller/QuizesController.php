@@ -2,18 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Answers;
 use App\Repository\QuestionsRepository;
 use App\Repository\UsersRepository;
 use App\Entity\Questions;
 use App\Entity\Quizes;
+use App\Entity\QuizParticipant;
 use App\Entity\Users;
 use App\Form\QuestionsType;
 use App\Form\QuizesType;
 use App\Repository\QuizesRepository;
+use App\Repository\QuizParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 #[Route('/quizes')]
 class QuizesController extends AbstractController
@@ -72,6 +77,57 @@ class QuizesController extends AbstractController
             
         ]);
     }
+
+    #[Route('/join/{code}', name: 'app_quizes_join', methods: ['GET', 'POST'])]
+    public function join(EntityManagerInterface $em,QuizParticipantRepository $qpr,Request $request,string $code, QuizesRepository $QuizesRepository, UsersRepository $usersRepository): Response
+    {
+        $quize = $QuizesRepository->findOneBy(['code' => $code]);
+        $user = $usersRepository->find($quize->getUserId()->getId());
+        $user_name = $user ? $user->getUserName() : 'Unknown';
+        $user_id =$user->getId();
+        $questions = $quize->getQuestions();
+
+        if (!$quize) {
+            throw $this->createNotFoundException('Quiz not found.');
+        }
+
+        if ($request->isMethod('POST')) {
+            
+        $quiz_participant = new QuizParticipant();
+        $quiz_participant->setUserId($this->getUser());
+        $quiz_participant->setNbrTries(1);
+        $quiz_participant->setQuizId($quize);
+
+        $formData = $request->request->all();
+        foreach ($formData as $questionId => $selectedAnswers) {
+            // $questionId is the ID of the question
+            echo $questionId;
+            echo "<br>";
+            // $selectedAnswers is an array of selected answers for the question
+            foreach ($selectedAnswers as $answerId) {
+                $answer = $em->getRepository(Answers::class)->findOneBy(['id' => $answerId]);
+                echo "&nbsp;".$answerId;
+                echo "<br>";
+                $quiz_participant->addAnswer($answer);
+                // $answerId is the ID of the selected answer
+                // Access the answer object using the question and answer IDs
+                // Perform any required logic or processing
+            }
+        }
+        $qpr->save($quiz_participant, true);
+        return $this->redirectToRoute('app_user_quizes');
+        
+    }
+        return $this->render('quizes/join.html.twig', [
+            'quize' => $quize,
+            'createdBy'=>$user_name,
+            'user_id'=>$user_id,
+            'questions'=>$questions,
+            
+        ]);
+    }
+    
+
 
     #[Route('/{id}/edit', name: 'app_quizes_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Quizes $quize, QuizesRepository $quizesRepository, UsersRepository $usersRepository): Response

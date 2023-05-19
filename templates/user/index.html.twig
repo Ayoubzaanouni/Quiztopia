@@ -67,11 +67,12 @@
 {% endblock %}
 
 {% block body %}
-{% if status == true %}
+{% if status == 'correct' %}
   <script>
-  alert('password changed success');
+  alert('The modification has been successfully saved.');
   </script>
 {% endif %}
+
 <div class="container">
     <div class="main-body">
     
@@ -129,6 +130,9 @@
                   
                   
         <label for="oldPassword">Old Password</label>
+        {% if status == 'incorrect' %}
+        <p style="color:red;" >incoorect password</p>
+        {% endif %}
  {{ form_widget(form.old_password, { 'attr': {'class': 'form-control'} }) }}      </div>
 
                   <hr>

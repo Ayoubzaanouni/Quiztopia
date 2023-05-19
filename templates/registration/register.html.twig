@@ -18,6 +18,20 @@
     body{
         overflow: hidden;
     }
+    .error-text {
+  color: red;
+  animation: fade-in 2s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -49,16 +63,16 @@
     <div class="form-container sign-in-container">
         <form method="post">
          {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="error-text">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
         {% if app.user %}
-        <div class="mb-3">
+        <div class="mb-3">   
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>c
     {% endif %}
     <input type="hidden" name="form_type" value="login">
             <h1>Sign in</h1>
-            <div class="social-container">
+            <div class="social-container">"
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnswersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,6 +38,14 @@ class Answers
 
     #[ORM\ManyToOne]
     private ?Quizes $quiz_id = null;
+
+    #[ORM\ManyToMany(targetEntity: QuizParticipant::class, mappedBy: 'answers')]
+    private Collection $quizParticipants;
+
+    public function __construct()
+    {
+        $this->quizParticipants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -98,6 +108,33 @@ class Answers
     public function setQuizId(?Quizes $quiz_id): self
     {
         $this->quiz_id = $quiz_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuizParticipant>
+     */
+    public function getQuizParticipants(): Collection
+    {
+        return $this->quizParticipants;
+    }
+
+    public function addQuizParticipant(QuizParticipant $quizParticipant): self
+    {
+        if (!$this->quizParticipants->contains($quizParticipant)) {
+            $this->quizParticipants->add($quizParticipant);
+            $quizParticipant->addAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizParticipant(QuizParticipant $quizParticipant): self
+    {
+        if ($this->quizParticipants->removeElement($quizParticipant)) {
+            $quizParticipant->removeAnswer($this);
+        }
 
         return $this;
     }

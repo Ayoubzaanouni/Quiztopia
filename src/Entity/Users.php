@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -36,6 +37,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Quizes::class)]
     private Collection $quizes;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: QuizParticipant::class)]
+    private Collection $quiz_participants;
+
+    public function __construct()
+    {
+        $this->quiz_participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,5 +139,35 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, QuizParticipant>
+     */
+    public function getQuizParticipant(): Collection
+    {
+        return $this->quiz_participants;
+    }
+
+    public function addQuizParticipant(QuizParticipant $quiz_participants): self
+    {
+        if (!$this->quiz_participants->contains($quiz_participants)) {
+            $this->quiz_participants->add($quiz_participants);
+            $quiz_participants->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizParticipant(QuizParticipant $quiz_participants): self
+    {
+        if ($this->quiz_participants->removeElement($quiz_participants)) {
+            // set the owning side to null (unless already changed)
+            if ($quiz_participants->getUserId() === $this) {
+                $quiz_participants->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 }

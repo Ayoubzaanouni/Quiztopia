@@ -39,16 +39,17 @@ class Quizes
     #[ORM\Column(nullable: true)]
     private ?int $max_tries = null;
 
-    #[ORM\ManyToMany(targetEntity: QuizPt::class, mappedBy: 'quiz_id')]
-    private Collection $quizPts;
 
     #[ORM\OneToMany(mappedBy: 'quiz_id', targetEntity: Questions::class, orphanRemoval: true)]
     private Collection $questions;
 
+    #[ORM\OneToMany(mappedBy: 'quiz_id', targetEntity: QuizParticipant::class, orphanRemoval: true)]
+    private Collection $quizParticipants;
+
     public function __construct()
     {
-        $this->quizPts = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->quizParticipants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,33 +151,7 @@ class Quizes
         return $this;
     }
 
-    /**
-     * @return Collection<int, QuizPt>
-     */
-    public function getQuizPts(): Collection
-    {
-        return $this->quizPts;
-    }
-
-    public function addQuizPt(QuizPt $quizPt): self
-    {
-        if (!$this->quizPts->contains($quizPt)) {
-            $this->quizPts->add($quizPt);
-            $quizPt->addQuizId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuizPt(QuizPt $quizPt): self
-    {
-        if ($this->quizPts->removeElement($quizPt)) {
-            $quizPt->removeQuizId($this);
-        }
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Questions>
      */
@@ -201,6 +176,36 @@ class Quizes
             // set the owning side to null (unless already changed)
             if ($question->getQuizId() === $this) {
                 $question->setQuizId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuizParticipant>
+     */
+    public function getQuizParticipants(): Collection
+    {
+        return $this->quizParticipants;
+    }
+
+    public function addQuizParticipant(QuizParticipant $quizParticipant): self
+    {
+        if (!$this->quizParticipants->contains($quizParticipant)) {
+            $this->quizParticipants->add($quizParticipant);
+            $quizParticipant->setQuizId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizParticipant(QuizParticipant $quizParticipant): self
+    {
+        if ($this->quizParticipants->removeElement($quizParticipant)) {
+            // set the owning side to null (unless already changed)
+            if ($quizParticipant->getQuizId() === $this) {
+                $quizParticipant->setQuizId(null);
             }
         }
 

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizes{% endblock %}
+
+{% block body %}
+    <h1>Quizes</h1>
+{% if (app.user.id == user_id) or (quize.isPublic == 1 ) %}
+    
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Created by</th>
+                <td>{{ createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ quize.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ quize.description }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ quize.code }}</td>
+            </tr>
+            <tr>
+                <th>Max_tries</th>
+                <td>{{ quize.maxTries }}</td>
+            </tr>
+            <tr>
+            {# template.twig #}
+
+<form method="POST" action="#">
+    {% for question in questions %}
+        {{ question.text }}
+        <br>
+        {% for answer in question.getAnswers() %}
+            <label for="answer_{{ question.id }}_{{ answer.id }}">
+                <input type="checkbox" name="question_{{ question.id }}[]" id="answer_{{ question.id }}_{{ answer.id }}" value="{{ answer.id }}">
+                {{ answer.text }}
+            </label>
+            <br>
+        {% endfor %}
+    {% endfor %}
+    
+    <button type="submit">Submit</button>
+</form>
+
+
+
+            <td><img id="qr-code-{{ quize.id }}" src="" alt=""/>
+                <script>
+                    var image = document.getElementById("qr-code-{{ quize.id }}");
+                    var input = "{{ quize.code }}";
+                    var api = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(input);
+                    image.src = api;
+                </script>
+            </td>
+            </tr>
+            
+        </tbody>
+    </table>
+    {% else %}
+        this quiz is private
+    {% endif %}
+
+<a href="#">Start Quiz</a>
+{% endblock %}

@@ -50,7 +50,7 @@ class Users1Type extends AbstractType
             'type' => PasswordType::class,
             'invalid_message' => 'The password fields must match.',
             'options' => ['attr' => ['class' => 'password-field']],
-            'required' => true,
+            'required' => false,
             'label' => false,
             'mapped' => false,
             'first_options'  => ['label' => false, 'attr' => ['placeholder' => 'Password','style' => 'width: fit-content;']],
@@ -60,9 +60,7 @@ class Users1Type extends AbstractType
                 'style' => 'width: 200px;',
             ],
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Please enter a password',
-                ]),
+                
                 new Length([
                     'min' => 6,
                     'minMessage' => 'Your password should be at least {{ limit }} characters',

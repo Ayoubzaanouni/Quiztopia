@@ -17,7 +17,7 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function index(Request $request, UsersRepository $usersRepository, EntityManagerInterface $em): Response
     {
-        $status = null;
+        $status = 'nothing';
         $user = $this->getUser();
         $form = $this->createForm(Users1Type::class,$user);
         $form->handleRequest($request);
@@ -25,24 +25,53 @@ class UserController extends AbstractController
         $user1 = $em->getRepository(Users::class)->find($user->getId());
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()){
             $oldPassword = $form->get('old_password')->getData();
             $hashedPassword = $user1->getPassword();
-
-            // Perform your password validation logic here
+            
             if (password_verify($oldPassword, $hashedPassword)) {
-                $status = true;
+                $status = 'correct';
+                $user_name= $form->get('user_name')->getData();
+                
+                $user1->setUserName($user_name);
                 // Old password matches, proceed with updating the password
                 $newPassword = $form->get('new_password')->getData();
+
+                if(!empty($newPassword))
+                {
+                    $user1->setPassword(password_hash($newPassword, PASSWORD_BCRYPT));
+                }
               
-                $user1->setPassword(password_hash($newPassword, PASSWORD_BCRYPT));
+                $usersRepository->save($user1, true);
+                
+                        }
+                        else{
+                            $status= 'incorrect';
+                        }
+        }
+
+
+        // if ($form->isSubmitted() && $form->isValid()&&!empty($form->get('new_password')->getData())) {
+        //     $oldPassword = $form->get('old_password')->getData();
+        //     $hashedPassword = $user1->getPassword();
+
+        //     // Perform your password validation logic here
+        //     if (password_verify($oldPassword, $hashedPassword)) {
+        //         $status = true;
+        //         $user_name= $form->get('user_name')->getData();
+        //         $user1->serUserName($user_name);
+        //         // Old password matches, proceed with updating the password
+        //         $newPassword = $form->get('new_password')->getData();
+              
+        //         $user1->setPassword(password_hash($newPassword, PASSWORD_BCRYPT));
                 
                 
-            $usersRepository->save($user1, true);
+        //     $usersRepository->save($user1, true);
 
             
-                        }
-                    }
+        //                 }
+        //             }
+        
                     return $this->render('user/index.html.twig', [
                         'controller_name' => 'UserController',
                         'form' => $form,
