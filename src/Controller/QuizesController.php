@@ -87,6 +87,17 @@ class QuizesController extends AbstractController
         $user_name = $user ? $user->getUserName() : 'Unknown';
         $user_id =$user->getId();
         $questions = $quize->getQuestions();
+        
+        $qb1 = $em->createQueryBuilder();
+        $qb1->select('COUNT(a.id)')
+        ->from('App\Entity\Answers', 'a')
+        ->where('a.is_correct = :correct')
+        ->andWhere('a.quiz_id = :quizId')
+        ->setParameter('correct', true)
+        ->setParameter('quizId', $quize->getId());
+        $nbr_correct_answers = $qb1->getQuery()->getSingleScalarResult();
+        echo $nbr_correct_answers;
+
 
         if (!$quize) {
             throw $this->createNotFoundException('Quiz not found.');
@@ -100,6 +111,7 @@ class QuizesController extends AbstractController
         ->setParameter('userId', $this->getUser()->getId())
         ->setParameter('quizId', $quize->getId());
 
+
         $count = $qb->getQuery()->getSingleScalarResult();
         if ($request->isMethod('POST')) {
             
@@ -109,8 +121,9 @@ class QuizesController extends AbstractController
         
         
         $quiz_participant->setNbrTries($count+1);
-
+        
         $formData = $request->request->all();
+        $counter = 0;
         foreach ($formData as $questionId => $selectedAnswers) {
             // $questionId is the ID of the question
             echo $questionId;
@@ -118,6 +131,13 @@ class QuizesController extends AbstractController
             // $selectedAnswers is an array of selected answers for the question
             foreach ($selectedAnswers as $answerId) {
                 $answer = $em->getRepository(Answers::class)->findOneBy(['id' => $answerId]);
+                if($answer->isIsCorrect())
+                {
+                    $counter +=1;
+                }
+                else{
+                    $counter -=1;
+                }
                 echo "&nbsp;".$answerId;
                 echo "<br>";
                 $quiz_participant->addAnswer($answer);
@@ -126,9 +146,18 @@ class QuizesController extends AbstractController
                 // Perform any required logic or processing
             }
         }
+        $score = ($counter/$nbr_correct_answers)*100;
+        if($score > 0)
+        {
+            $quiz_participant->setScore(round($score, 2));
+        }
+        else{
+            $quiz_participant->setScore(0);
+        }
         $qpr->save($quiz_participant, true);
         return $this->redirectToRoute('app_user_quizes');
-        
+
+
     }
         return $this->render('quizes/join.html.twig', [
             'quize' => $quize,

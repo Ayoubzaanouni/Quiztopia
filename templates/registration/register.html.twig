@@ -22,6 +22,17 @@
   color: red;
   animation: fade-in 2s;
 }
+.dar {
+    text-align: center;
+    margin-top: 20px;
+    width: 120px;
+    height: 30px;
+    border-radius: 0px 10px 10px 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to right, rgb(0, 250, 212.5), rgb(230, 230, 230));
+}
 
 @keyframes fade-in {
   from {
@@ -35,6 +46,7 @@
   </style>
 </head>
 <body>
+
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         {{ form_start(registrationForm) }}
@@ -59,8 +71,11 @@
 
             <button type="submit" onclick="validateCaptcha()" name="register" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+    
     </div>
     <div class="form-container sign-in-container">
+    <a href="{{ path('app_main_2') }}"class="btn-primary dar" type="button">home</a>
+
         <form method="post">
          {% if error %}
             <div class="error-text">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -70,9 +85,10 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>c
     {% endif %}
+
     <input type="hidden" name="form_type" value="login">
             <h1>Sign in</h1>
-            <div class="social-container">"
+            <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
@@ -91,6 +107,8 @@
     <div class="overlay-container">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
+            <a href="{{ path('app_main_2') }}"class="btn-primary dar" type="button">home</a>
+
                 <h1>Welcome Back!</h1>
                 <h5>Enter your personal details and start your quiz journey!</h5>
                 
