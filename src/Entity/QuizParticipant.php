@@ -100,11 +100,10 @@ class QuizParticipant
         return $this->joined_at;
     }
 
-    public function setJoinedAt(?\DateTimeImmutable $joined_at): self
+    public function setJoinedAt(): self
     {
-        $this->joined_at = $joined_at;
-
-        return $this;
+        $this->joined_at = new \DateTimeImmutable();
+    return $this;
     }
 
     /**

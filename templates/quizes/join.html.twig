@@ -3,39 +3,154 @@
 {% block title %}Quizes{% endblock %}
 
 {% block body %}
-    <h1>Quizes</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Created by</th>
-                <td>{{ createdBy }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ quize.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ quize.description }}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{ quize.code }}</td>
-            </tr>
-            <tr>
-                <th>Max_tries</th>
-                <td>{{ quize.maxTries }}</td>
-            </tr>
-            <tr>
-            {# template.twig #}
 {% if nbr_tries < quize.maxTries %}
     {# Your code here #}
+<script>
+   var myDictionary = {};
 
+  {% for question in questions %}
+  var questionText = "{{ question.text }}";
+  var questionId = "{{ question.id }}";
+  console.log(questionText);
 
-    
+  var answersArray = [];
 
-<form method="POST" action="#">
+  {% for answer in question.getAnswers() %}
+  var answerId = "{{ answer.id }}";
+  var answerText = "{{ answer.text }}";
+
+  var answerObject = {
+    id: answerId,
+    text: answerText
+  };
+
+  answersArray.push(answerObject);
+  {% endfor %}
+
+  var key = [questionText, questionId];
+  myDictionary[key] = answersArray;
+  console.log(myDictionary[key]);
+  {% endfor %}
+</script>
+
+<form method="POST" action="#" id="quizForm">
+  <div id="questionContainer">
+    <h2 id="questionText"></h2>
+    <ul id="answersList"></ul>
+  </div>
+  <button id="nextButton" type="button">Next Question</button>
+</form>
+
+<script>
+  var currentIndex = 0;
+  var questionTextElement = document.getElementById('questionText');
+  var answersListElement = document.getElementById('answersList');
+  var selectedAnswers = [];
+
+  function loadQuestion() {
+    var questionKeys = Object.keys(myDictionary);
+
+    var QuestionText = questionKeys[currentIndex].split(',')[0];
+    var QuestionId = questionKeys[currentIndex].split(',')[1];
+
+    var currentQuestionText = questionKeys[currentIndex];
+    var currentQuestionAnswers = myDictionary[currentQuestionText];
+
+    questionTextElement.textContent = QuestionText;
+    answersListElement.innerHTML = '';
+
+    currentQuestionAnswers.forEach(function(answer) {
+      var li = document.createElement('li');
+      var label = document.createElement('label');
+      var input = document.createElement('input');
+
+      input.type = 'checkbox';
+      input.name = 'question_' + QuestionId + '[]';
+      input.value = answer.id;
+      input.id = 'answer_' + QuestionId + '_' + answer.id;
+
+      label.htmlFor = 'answer_' + QuestionId + '_' + answer.id;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(answer.text));
+
+      li.appendChild(label);
+      answersListElement.appendChild(li);
+    });
+  }
+
+  function nextQuestion() {
+    currentIndex++;
+    console.log(currentIndex);
+    var len = Object.keys(myDictionary).length;
+    if (currentIndex >= Object.keys(myDictionary).length) {
+      console.log('End of questions');
+      document.getElementById('nextButton').style.display = 'none';
+      document.getElementById('submitButton').style.display = 'block';
+    } else {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      checkboxes.forEach(function(checkbox) {
+        console.log(checkbox.value);
+      selectedAnswers.push(checkbox.value);
+    });
+
+    if (currentIndex == Object.keys(myDictionary).length) {
+        var btn = document.getElementById('nextButton');
+        btn.type="submit";
+        btn.innerHTML="submit";
+    }
+    if (currentIndex < len ){
+      loadQuestion();
+    }
+    }
+  }
+
+  function submitQuiz() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      checkboxes.forEach(function(checkbox) {
+        console.log(checkbox.value);
+      selectedAnswers.push(checkbox.value);
+    });
+    // Get the selected answers
+    // Submit the form with the selected answers
+    var form = document.getElementById('quizForm');
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'selectedAnswers';
+    input.value = JSON.stringify(selectedAnswers);
+    form.appendChild(input);
+    form.submit();
+  }
+    var len = Object.keys(myDictionary).length;
+
+function checkFormSubmission() {
+  // Check if the form is submitted
+  if (currentIndex == len - 1) {
+    // Form submitted, do something
+    console.log('Form submitted');
+    var btn = document.getElementById('nextButton');
+        btn.innerHTML="submit";
+    btn.addEventListener('click', submitQuiz);
+    clearInterval(intervalId); // Stop the interval
+  }
+}
+var intervalId = setInterval(checkFormSubmission, 50);
+
+  var nextButton = document.getElementById('nextButton');
+  nextButton.addEventListener('click', nextQuestion);
+
+  loadQuestion();
+</script>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{# <form method="POST" action="#">
     {% for question in questions %}
         {{ question.text }}
         <br>
@@ -48,30 +163,13 @@
         {% endfor %}
     {% endfor %}
     <button type="submit">Submit</button>
-</form>
+</form> #}
 
 {% endif %}
 
 
-
-            <td><img id="qr-code-{{ quize.id }}" src="" alt=""/>
-                <script>
-                    var image = document.getElementById("qr-code-{{ quize.id }}");
-                    var input = "{{ quize.code }}";
-                    var api = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(input);
-                    image.src = api;
-                </script>
-            </td>
-            </tr>
-            
-        </tbody>
-    </table>
-
-{% if nbr_tries < quize.maxTries %}
-   <a href="#">Start Quiz</a>
-{% else %}
- <h1>
-You have exceeded the maximum number of tries.</h1>
+{% if nbr_tries >= quize.maxTries %}
+  <h1>You have exceeded the maximum number of tries.</h1>
 {% endif %}
 
 {% endblock %}

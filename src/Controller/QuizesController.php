@@ -96,7 +96,7 @@ class QuizesController extends AbstractController
         ->setParameter('correct', true)
         ->setParameter('quizId', $quize->getId());
         $nbr_correct_answers = $qb1->getQuery()->getSingleScalarResult();
-        echo $nbr_correct_answers;
+
 
 
         if (!$quize) {
@@ -118,34 +118,33 @@ class QuizesController extends AbstractController
         $quiz_participant = new QuizParticipant();
         $quiz_participant->setUserId($this->getUser());
         $quiz_participant->setQuizId($quize);
-        
+        $quiz_participant->setJoinedAt();
         
         $quiz_participant->setNbrTries($count+1);
         
-        $formData = $request->request->all();
-        $counter = 0;
-        foreach ($formData as $questionId => $selectedAnswers) {
-            // $questionId is the ID of the question
-            echo $questionId;
-            echo "<br>";
-            // $selectedAnswers is an array of selected answers for the question
-            foreach ($selectedAnswers as $answerId) {
-                $answer = $em->getRepository(Answers::class)->findOneBy(['id' => $answerId]);
-                if($answer->isIsCorrect())
+    $counter = 0;
+    $selectedAnswers = $request->request->get('selectedAnswers');
+    if (!empty($selectedAnswers)) {    
+    $selectedAnswers = json_decode($selectedAnswers, true);
+
+        // Process the selected answers
+        foreach ($selectedAnswers as $answerId) {
+            // $answerId is the ID of the selected answer
+            $answer = $em->getRepository(Answers::class)->findOneBy(['id' => $answerId]);
+            // Perform any required logic or processing
+            if($answer->isIsCorrect())
                 {
                     $counter +=1;
                 }
                 else{
                     $counter -=1;
-                }
-                echo "&nbsp;".$answerId;
-                echo "<br>";
-                $quiz_participant->addAnswer($answer);
-                // $answerId is the ID of the selected answer
-                // Access the answer object using the question and answer IDs
-                // Perform any required logic or processing
-            }
+                 }
+                 $quiz_participant->addAnswer($answer);
         }
+    }
+
+        // ... (rest of your code)
+    
         $score = ($counter/$nbr_correct_answers)*100;
         if($score > 0)
         {
@@ -156,9 +155,11 @@ class QuizesController extends AbstractController
         }
         $qpr->save($quiz_participant, true);
         return $this->redirectToRoute('app_user_quizes');
-
-
+    
     }
+
+
+    
         return $this->render('quizes/join.html.twig', [
             'quize' => $quize,
             'createdBy'=>$user_name,
