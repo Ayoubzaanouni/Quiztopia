@@ -2,11 +2,18 @@
 
 {% block title %}Quizes{% endblock %}
 
+
 {% block body %}
+
+<body onload="hideDiv()">
 
 {% if nbr_tries < quize.maxTries %}
     {# Your code here #}
 <script>
+function hideDiv() {
+      var divElement = document.getElementById("navbarNav");
+      divElement.remove();
+    }
    var myDictionary = {};
 
   {% for question in questions %}
@@ -33,14 +40,48 @@
   console.log(myDictionary[key]);
   {% endfor %}
 </script>
+<style>
 
-<form method="POST" action="#" id="quizForm">
-  <div id="questionContainer">
-    <h2 id="questionText"></h2>
-    <ul id="answersList"></ul>
-  </div>
-  <button id="nextButton" type="button">Next Question</button>
-</form>
+  .card {
+    background-color: lightblue;
+    padding: 20px;
+    margin:250px auto;
+    width: 50%;
+    border-radius: 5px;
+  }
+
+  #questionText {
+    text-align: center;
+  }
+
+  #nextButton {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .answer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .answer input[type="checkbox"] {
+    margin-right: 10px;
+  }
+</style>
+
+<div class="card">
+  <form method="POST" action="#" id="quizForm">
+    <div id="questionContainer">
+      <h2 id="questionText">Question goes here</h2>
+      <hr>
+      <ul id="answersList">
+
+      </ul>
+    </div>
+    <button id="nextButton" type="button">Next Question</button>
+  </form>
+</div>
 
 <script>
   var currentIndex = 0;
@@ -62,6 +103,7 @@
 
     currentQuestionAnswers.forEach(function(answer) {
       var li = document.createElement('li');
+      li.className = 'answer';
       var label = document.createElement('label');
       var input = document.createElement('input');
 
@@ -142,29 +184,6 @@ var intervalId = setInterval(checkFormSubmission, 50);
   loadQuestion();
 </script>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-{# <form method="POST" action="#">
-    {% for question in questions %}
-        {{ question.text }}
-        <br>
-        {% for answer in question.getAnswers() %}
-            <label for="answer_{{ question.id }}_{{ answer.id }}">
-                <input type="checkbox" name="question_{{ question.id }}[]" id="answer_{{ question.id }}_{{ answer.id }}" value="{{ answer.id }}">
-                {{ answer.text }}
-            </label>
-            <br>
-        {% endfor %}
-    {% endfor %}
-    <button type="submit">Submit</button>
-</form> #}
-
 {% endif %}
 
 
@@ -172,4 +191,5 @@ var intervalId = setInterval(checkFormSubmission, 50);
   <h1>You have exceeded the maximum number of tries.</h1>
 {% endif %}
 
+</body>
 {% endblock %}

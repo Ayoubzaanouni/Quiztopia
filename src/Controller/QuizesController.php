@@ -13,6 +13,7 @@ use App\Form\QuestionsType;
 use App\Form\QuizesType;
 use App\Repository\QuizesRepository;
 use App\Repository\QuizParticipantRepository;
+use Doctrine\DBAL\Types\StringType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,6 +79,20 @@ class QuizesController extends AbstractController
             
         ]);
     }
+
+    // #[Route('/code', name: 'app_quizes_code', methods: ['GET', 'POST'])]
+    // public function code(Request $request): Response
+    // {
+    //     $form = $this->createFormBuilder()
+    //     ->add('code', TextType::class)
+    //     ->getForm();
+    //     $form->handleRequest($request);
+    //     if($form->isSubmitted() && $form->isValid()){
+    //         $code = $form->get('code')->getData();
+    //         return $this->redirectToRoute('app_questions_join', ['code' => $code]);
+    //     }
+        
+    // }
 
     #[Route('/join/{code}', name: 'app_quizes_join', methods: ['GET', 'POST'])]
     public function join(EntityManagerInterface $em,QuizParticipantRepository $qpr,Request $request,string $code, QuizesRepository $QuizesRepository, UsersRepository $usersRepository): Response
