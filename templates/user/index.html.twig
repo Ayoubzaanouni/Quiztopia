@@ -6,238 +6,229 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-      body {
-        background-color: #f8f9fa;
-      }
-      body{
-    color: #1a202c;
-    text-align: left;
-    background-color: #e2e8f0;    
-}
+        body {
+            color: #1a202c;
+            text-align: left;
+            background-color: #e2e8f0;
+        }
 
-      .card {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-}
+        .card {
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+        }
 
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-}
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 0 solid rgba(0,0,0,.125);
+            border-radius: .25rem;
+        }
 
-.card-body {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1rem;
-}
+        .card-body {
+            flex: 1 1 auto;
+            min-height: 1px;
+            padding: 1rem;
+        }
 
-.gutters-sm {
-    margin-right: -8px;
-    margin-left: -8px;
-}
+        .gutters-sm {
+            margin-right: -8px;
+            margin-left: -8px;
+        }
 
-.gutters-sm>.col, .gutters-sm>[class*=col-] {
-    padding-right: 8px;
-    padding-left: 8px;
-}
-.mb-3, .my-3 {
-    margin-bottom: 1rem!important;
-}
+        .gutters-sm>.col, .gutters-sm>[class*=col-] {
+            padding-right: 8px;
+            padding-left: 8px;
+        }
 
-.bg-gray-300 {
-    background-color: #e2e8f0;
-}
-.h-100 {
-    height: 100%!important;
-}
-.shadow-none {
-    box-shadow: none!important;
-}
+        .mb-3, .my-3 {
+            margin-bottom: 1rem!important;
+        }
 
-.hidden {
+        .bg-gray-300 {
+            background-color: #e2e8f0;
+        }
+
+        .h-100 {
+            height: 100%!important;
+        }
+
+        .shadow-none {
+            box-shadow: none!important;
+        }
+
+        .hidden {
             display: none;
+        }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
         }
     </style>
 {% endblock %}
 
 {% block body %}
-{% if status == 'correct' %}
-  <script>
-  alert('The modification has been successfully saved.');
-  </script>
-{% endif %}
+    {% if status == 'correct' %}
+        <script>
+            alert('The modification has been successfully saved.');
+        </script>
+    {% endif %}
 
-<div class="container">
-    <div class="main-body">
-    
-          <!-- Breadcrumb -->
-          <nav aria-label="breadcrumb" class="main-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
-              <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-            </ol>
-          </nav>
-          <!-- /Breadcrumb -->
-    
-          <div class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-        <img src="{{ asset(app.user.getProfileImage()) }}" alt="Profile Image" class="profile-image">
-                    <div class="mt-3">
-                      <h4>{{ app.user.getUserName() }}</h4>
-                      <p class="text-secondary mb-1">{{ app.user.email }}</p>
-<button class="show-personal-quizzes" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>                    </div>
-                  </div>
+    <div class="container">
+        <div class="main-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="main-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_quizes_index') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+            </nav>
+            <!-- /Breadcrumb -->
+
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="{{ asset(app.user.getProfileImage()) }}" alt="Profile Image" class="profile-image">
+                                <div class="mt-3">
+                                    <h4>{{ app.user.getUserName() }}</h4>
+                                    <p class="text-secondary mb-1">{{ app.user.email }}</p>
+                                    <button class="show-personal-quizzes" onclick="window.location.href='{{ path('app_user_quizes') }}'">Show Personal Quizzes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              
+
+                {% form_theme form _self %}
+                {% block _user_form %}
+                    {{ form_start(form) }}
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">User name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ form_widget(form.user_name, { 'attr': {'class': 'form-control'} }) }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control" type="text" value={{ app.user.email }} aria-label="readonly input example" readonly>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <label for="oldPassword">Old Password</label>
+                                {% if status == 'incorrect' %}
+                                    <p style="color:red;">Incorrect password</p>
+                                {% endif %}
+                                {{ form_widget(form.old_password, { 'attr': {'class': 'form-control'} }) }}
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="container">
+                                            <button id="toggleButton" type="button" onclick="toggleInputs()">Change Password</button>
+                                            <div class="hidden" id="passwords">
+                                                {{ form_widget(form.new_password.first, { 'attr': {'class': 'form-control'} }) }}
+                                                {{ form_widget(form.new_password.second, { 'attr': {'class': 'form-control'} }) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="submit-btn" value="Sign Up" onmouseover="mouseOver()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
             </div>
-            {% form_theme form _self %}
-            {% block _user_form %}
-              {{ form_start(form) }}
-            <div class="col-md-8">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">User name</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                    {{ form_widget(form.user_name, { 'attr': {'class': 'form-control'} }) }}
-
-                      
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input class="form-control" type="text" value={{ app.user.email }} aria-label="readonly input example" readonly>
-                    </div>
-                  </div>
-                  <hr>
-                  
-                  
-        <label for="oldPassword">Old Password</label>
-        {% if status == 'incorrect' %}
-        <p style="color:red;" >incoorect password</p>
-        {% endif %}
- {{ form_widget(form.old_password, { 'attr': {'class': 'form-control'} }) }}      </div>
-
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-12">
-                  <div class="container">
-                  
-    <button id="toggleButton" type="button"onclick="toggleInputs()">change password</button>
-    {# <div class="hidden" id="passwords"> #}
-    
-            {# <label for="newPassword" >new password</label> #}
-
-   {{ form_widget(form.new_password.first, { 'attr': {'class': 'form-control hidden'} }) }}
-{{ form_widget(form.new_password.second, { 'attr': {'class': 'form-control hidden'} }) }}
-
-
-                 {# <label for="confirmPassword" >confirm password</label> #}
-
-
-    {# </div> #}
-            {# <a class="btn" href="#"><input type="submit" id="submit-btn" value="Sign Up" onmouseover="mouseOver()"></a> #}
-
-                       <button id="submit-btn" value="Sign Up" onmouseover="mouseOver()">save</button>
-    {{ form_end(form) }}
-{% endblock %}
-    </div>
-  </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
-
-    </div>
+        </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-var a = 0;
+    <script>
+        var a = 0;
 
-function mouseOver() {
-  var input1 = document.getElementById("users1_new_password_first");
-  var input2 = document.getElementById("users1_new_password_second");
-
-  if (input1.value === input2.value) {
-    document.getElementById('submit-btn').style.cursor = 'pointer';
-    resetBtn();
-    return false;
-  }
-
-  if (input1.value !== input2.value && a === 0) {
-    buttonMoveLeft();
-    a = 1;
-    return false;
-  }
-
-  if (input1.value !== input2.value && a === 1) {
-    buttonMoveRight();
-    a = 2;
-    return false;
-  }
-
-  if (input1.value !== input2.value && a === 2) {
-    buttonMoveLeft();
-    a = 1;
-    return false;
-  }
-
-  // Default case when none of the conditions above match
-  document.getElementById('submit-btn').style.cursor = 'default';
-  return false;
-};
-
-function buttonMoveLeft() {
-  const button = document.getElementById('submit-btn');
-  button.style.transform = 'translateX(-160%)';
-};
-
-function buttonMoveRight() {
-  const button = document.getElementById('submit-btn');
-  button.style.transform = 'translateX(0%)';
-};
-
-function resetBtn() {
-  const button = document.getElementById('submit-btn');
-  button.style.transform = 'translateX(0%)';
-};
-
-
-
-    function toggleInputs() {
-      
+        function mouseOver() {
             var input1 = document.getElementById("users1_new_password_first");
             var input2 = document.getElementById("users1_new_password_second");
+
+            if (input1.value === input2.value) {
+                document.getElementById('submit-btn').style.cursor = 'pointer';
+                resetBtn();
+                return false;
+            }
+
+            if (input1.value !== input2.value && a === 0) {
+                buttonMoveLeft();
+                a = 1;
+                return false;
+            }
+
+            if (input1.value !== input2.value && a === 1) {
+                buttonMoveRight();
+                a = 2;
+                return false;
+            }
+
+            if (input1.value !== input2.value && a === 2) {
+                buttonMoveLeft();
+                a = 1;
+                return false;
+            }
+
+            // Default case when none of the conditions above match
+            document.getElementById('submit-btn').style.cursor = 'default';
+            return false;
+        };
+
+        function buttonMoveLeft() {
+            const button = document.getElementById('submit-btn');
+            button.style.transform = 'translateX(-160%)';
+        };
+
+        function buttonMoveRight() {
+            const button = document.getElementById('submit-btn');
+            button.style.transform = 'translateX(0%)';
+        };
+
+        function resetBtn() {
+            const button = document.getElementById('submit-btn');
+            button.style.transform = 'translateX(0%)';
+        };
+
+        function toggleInputs() {
+            var input1 = document.getElementById("users1_new_password_first");
+            var input2 = document.getElementById("users1_new_password_second");
+            var passwords = document.getElementById("passwords");
 
             if (input1.classList.contains("hidden")) {
                 input1.classList.remove("hidden");
                 input2.classList.remove("hidden");
+                passwords.classList.remove("hidden");
             } else {
                 input1.classList.add("hidden");
                 input2.classList.add("hidden");
+                passwords.classList.add("hidden");
             }
-            
-        }</script>
+        }
+    </script>
 {% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Project Template{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a202c;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        main {
+            padding: auto;
+            text-align: center;
+            min-height: calc(100vh - 190px); /* Adjust this value according to your header and footer height */
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #1a202c;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        li::before {
+            content: '•';
+            margin-right: 10px;
+            color: #6c757d;
+        }
+
+        p {
+            color: #6c757d;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+       
+    </style>
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Quizz Project</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>About</h2>
+            <p>This project is a template designed to showcase project descriptions and credits for the creator.</p>
+        </section>
+
+        <section>
+            <h2>Features</h2>
+            <ul>
+                <li>Responsive design</li>
+                <li>Structured layout</li>
+                <li>Customizable styles</li>
+                <li>Easy integration with Symfony</li>
+            </ul>
+        </section>
+    </main>
+
+
+{% endblock %}

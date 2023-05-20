@@ -68,6 +68,10 @@ function hideDiv() {
   .answer input[type="checkbox"] {
     margin-right: 10px;
   }
+  .btn-success{
+    border-radius:50px;
+    width: 100px;
+  }
 </style>
 
 <div class="card">
@@ -79,7 +83,7 @@ function hideDiv() {
 
       </ul>
     </div>
-    <button id="nextButton" type="button">Next Question</button>
+    <button id="nextButton" class="btn-success" type="button">Next Question</button>
   </form>
 </div>
 
@@ -171,7 +175,7 @@ function checkFormSubmission() {
     // Form submitted, do something
     console.log('Form submitted');
     var btn = document.getElementById('nextButton');
-        btn.innerHTML="submit";
+        btn.innerHTML="Submit";
     btn.addEventListener('click', submitQuiz);
     clearInterval(intervalId); // Stop the interval
   }
