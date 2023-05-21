@@ -159,19 +159,23 @@ class QuizesController extends AbstractController
     }
 
         // ... (rest of your code)
-        if($nbr_correct_answers == 0){
+        if($nbr_correct_answers == 0)
+        {
             $nbr_correct_answers =1;
         }
         $score = ($counter/$nbr_correct_answers)*100;
+        
         if($score > 0)
         {
             $quiz_participant->setScore(round($score, 2));
+            $scoreString = strval(round($score,2));
         }
         else{
             $quiz_participant->setScore(0);
+            $scoreString = strval(0);
         }
         $qpr->save($quiz_participant, true);
-        return $this->redirectToRoute('app_user_quizes');
+        return $this->redirectToRoute('app_quizes_index', ['score'=>$scoreString]);
     
     }
 

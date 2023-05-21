@@ -12,7 +12,63 @@
 {% endblock %}
 
 {% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    const url = new URL(window.location.href);
+
+// Get the value of the "score" parameter from the URL
+const searchParams = new URLSearchParams(url.search);
+const score = searchParams.get('score');
+
+// Check if the "score" parameter exists and process it
+if(score != null)
+{
+    var score1 = "score: "+score+"%";
+
+    if(score == 100)
+    {
+        var text1 = 'u got a perfect score keep going';
+        var imageUrl1 = '/images/good_job.jpg';
+        var height1 = 300;
+    }
+    if(score < 100 && score > 80)
+    {
+        var text1 = 'well done u almost got it all right';
+        var imageUrl1 = '/images/well_done.png';
+        var height1 = 300;
+
+    }
+    if(score < 80 && score > 50)
+    {
+        var text1 = 'great next time u can do better';
+        var imageUrl1 = '/images/great.jpg';
+        var height1 = 200;
+    }
+    if(score == 50)
+    {
+        var text1 = 'u pass the exam but with sweat ';
+        var imageUrl1 = '/images/sweat.jpg';
+        var height1 = 400;
+    }
+    if(score < 50)
+    {
+        var text1 = 'sorry u didnt pass the quiz ';
+        var imageUrl1 = '/images/sorry.gif';
+        var height1 = 350;
+    }
     
+
+    Swal.fire({
+  title: score1,
+  text: text1,
+  imageUrl: imageUrl1,
+  imageWidth: 400,
+  imageHeight: height1,
+  imageAlt: 'Custom image',
+})
+
+}
+</script>
     <div class="card-container bounce-in-top">
     {% for item in data %}
     {% if item.quiz.isIsPublic() == 1 and item.quiz.getUserId().id != app.user.id %}
