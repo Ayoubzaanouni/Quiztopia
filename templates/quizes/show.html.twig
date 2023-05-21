@@ -46,7 +46,13 @@
                     image.src = api;
                 </script>
             </td>
-            <td> <a type="button" href="{{ path('app_quizes_join', {'code': quize.code})}}" class="btn but btn-primary">Join <i class="fa-sharp fa-solid fa-right-to-bracket"></i></a>
+
+            <td> 
+{% if (app.user.id == user_id) %}
+    <a type="button" class="btn but btn-primary" href="{{ path('app_quizes_edit', {'id': quize.id}) }}">edit &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-pen-to-square"></i></a>
+ {% else %}
+            <a type="button" href="{{ path('app_quizes_join', {'code': quize.code})}}" class="btn but btn-primary">Join <i class="fa-sharp fa-solid fa-right-to-bracket"></i></a>
+{% endif %}
             </td>
             </tr>
         </tbody>
@@ -54,11 +60,7 @@
     {% else %}
         this quiz is private
     {% endif %}
-
-    <a href="{{ path('app_quizes_index') }}">back to list</a>
 {% if (app.user.id == user_id) %}
-    <a href="{{ path('app_quizes_edit', {'id': quize.id}) }}">edit</a>
-
     {{ include('quizes/_delete_form.html.twig') }}
 {% endif %}
 {% endblock %}
