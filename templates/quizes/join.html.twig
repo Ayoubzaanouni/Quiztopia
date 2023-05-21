@@ -7,10 +7,13 @@
 <script>function hideDiv() {
       var divElement = document.getElementById("navbarNav");
       divElement.remove();
+      document.addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+    });
     }</script>
 <body onload="hideDiv()">
 
-{% if nbr_tries < quize.maxTries %}
+{% if nbr_tries < quize.maxTries or quize.maxTries is null %}
     {# Your code here #}
 <script>
 
@@ -19,7 +22,6 @@
   {% for question in questions %}
   var questionText = "{{ question.text }}";
   var questionId = "{{ question.id }}";
-  console.log(questionText);
 
   var answersArray = [];
 
@@ -37,7 +39,6 @@
 
   var key = [questionText, questionId];
   myDictionary[key] = answersArray;
-  console.log(myDictionary[key]);
   {% endfor %}
 </script>
 <style>
@@ -68,12 +69,16 @@
   .answer input[type="checkbox"] {
     margin-right: 10px;
   }
+  .btn-success{
+    border-radius:50px;
+  }
 </style>
 
 <div class="card">
-  <form method="POST" action="#" id="quizForm">
+  <button id="showButton" type="button" class="btn-success">Start Quiz</button>
+  <form method="POST" action="#" id="quizForm" style="display: none;">
     <div id="questionContainer">
-      <h2 id="questionText">Question goes here</h2>
+      <h2 id="questionText">There are no questions</h2>
       <hr>
       <ul id="answersList">
 
@@ -84,6 +89,24 @@
 </div>
 
 <script>
+  const showButton = document.getElementById("showButton");
+  const quizForm = document.getElementById("quizForm");
+
+  showButton.addEventListener("click", function() {
+
+    quizForm.style.display = "block";
+    showButton.style.display = "none";
+    if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+    document.documentElement.mozRequestFullScreen();
+  } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+    document.documentElement.webkitRequestFullscreen();
+  } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+    document.documentElement.msRequestFullscreen();
+  }
+
+  });
   var currentIndex = 0;
   var questionTextElement = document.getElementById('questionText');
   var answersListElement = document.getElementById('answersList');
@@ -184,10 +207,8 @@ var intervalId = setInterval(checkFormSubmission, 50);
   loadQuestion();
 </script>
 
-{% endif %}
 
-
-{% if nbr_tries >= quize.maxTries %}
+{% else %}
   <h1>You have exceeded the maximum number of tries.</h1>
 {% endif %}
 

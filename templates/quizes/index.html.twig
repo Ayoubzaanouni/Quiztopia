@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block menu %}
-<a href="{{ path('app_quizes_new') }}" class="btn create btn-outline-success">Create Quizz</a><br>
+<a href="{{ path('app_quizes_new') }}" class="btn create btn-outline-success">Create Quiz</a><br>
 {% endblock %}
 
 {% block body %}
@@ -88,7 +88,7 @@ if(score != null)
                 <script>
                     var image = document.getElementById("qr-code-{{ item.quiz.id }}");
                     var input = "{{ item.quiz.code }}";
-                    var api = "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=" + encodeURIComponent(input);
+                    var api = "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=" +"/quizes/join/" +encodeURIComponent(input);
                     image.src = api;
                 </script>
 
