@@ -14,7 +14,6 @@ class AnswersType extends AbstractType
         $builder
             ->add('text')
             ->add('is_correct')
-
         ;
     }
 

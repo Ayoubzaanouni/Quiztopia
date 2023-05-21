@@ -1,43 +1,97 @@
-{{ form_start(form) }}
-    {{ form_row(form.text) }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Your Page Title</title>
+        <style>
+            /* Add your custom CSS styles here */
+            body {
+                background-color: #f2f2f2;
+                font-family: Arial, sans-serif;
+            }
+            
+            /* Add specific styles for the quiz form */
+            .row {
+                margin-bottom: 10px;
+            }
+            
+            .answers li {
+                margin-bottom: 10px;
+            }
+            .addq{
+                width: 250px;
+                border-radius: 30px;
+            }
+            
+            /* Add more styles as needed */
+        </style>
+        <!-- Include other CSS files if necessary -->
+        <link rel="stylesheet" href="{{ asset('path/to/other-styles.css') }}">
+    </head>
+    <body>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.text) }}
+            </div>
+        </div>
 
-    <h3>Answers</h3>
-    <ul class="answers"
-        data-index="{{ form.answers|length > 0 ? form.answers|last.vars.name + 1 : 0 }}"
-        data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">
-        {% for answer in form.answers %}
-            <li>
-                {{ form_row(answer.text) }}
-                {{ form_row(answer.is_correct) }}
-            </li>
-        {% endfor %}
-    </ul>
-    <button type="button" class="add_item_link" data-collection-holder-class="answers">Add an answer</button>
- <button class="btn" name="save_and_add_another" value="true">{{ button_label|default('Add another question') }}</button>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <h3>Answers</h3>
+                <ul class="answers list-unstyled"
+                    data-index="{{ form.answers|length > 0 ? form.answers|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">
+                    {% for answer in form.answers %}
+                        <li class="answer">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {{ form_row(answer.text) }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ form_row(answer.is_correct, {'label': 'Is Correct?'}) }}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button type="button" class="add_item_link btn btn-secondary mt-2" data-collection-holder-class="answers">Add an answer</button>
+            </div>
+        </div>
 
-    <button class="btn" name="save_and_go_quiz" value="true">{{ button_label|default('Quiz complited') }}</button>
-{{ form_end(form) }}
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <button class="btn addq  btn-primary" name="save_and_add_another" value="true">{{ button_label|default('Add another question') }}</button>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <button class="btn btn-success" name="save_and_go_quiz" value="true">{{ button_label|default('Quiz completed') }}</button>
+            </div>
+        </div>
+        {{ form_end(form) }}
 
-<script>
-    const addFormToCollection = (e) => {
-        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+        <script>
+            const addFormToCollection = (e) => {
+                const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
-        const item = document.createElement('li');
+                const item = document.createElement('li');
+                item.classList.add('answer');
 
-        item.innerHTML = collectionHolder
-            .dataset
-            .prototype
-            .replace(
-                /__name__/g,
-                collectionHolder.dataset.index
-            );
+                item.innerHTML = collectionHolder
+                    .dataset
+                    .prototype
+                    .replace(
+                        /__name__/g,
+                        collectionHolder.dataset.index
+                    );
 
-        collectionHolder.appendChild(item);
+                collectionHolder.appendChild(item);
 
-        collectionHolder.dataset.index++;
-    };
+                collectionHolder.dataset.index++;
+            };
 
-    document.querySelectorAll('.add_item_link').forEach(btn => {
-        btn.addEventListener("click", addFormToCollection);
-    });
-</script>
+            document.querySelectorAll('.add_item_link').forEach(btn => {
+                btn.addEventListener("click", addFormToCollection);
+            });
+        </script>
+    </body>
+</html>
