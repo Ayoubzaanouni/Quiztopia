@@ -4,16 +4,16 @@
 
 
 {% block body %}
-
+<script>function hideDiv() {
+      var divElement = document.getElementById("navbarNav");
+      divElement.remove();
+    }</script>
 <body onload="hideDiv()">
 
 {% if nbr_tries < quize.maxTries %}
     {# Your code here #}
 <script>
-function hideDiv() {
-      var divElement = document.getElementById("navbarNav");
-      divElement.remove();
-    }
+
    var myDictionary = {};
 
   {% for question in questions %}
