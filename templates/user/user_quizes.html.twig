@@ -9,14 +9,11 @@
 {% block body %}
 <div class="example-wrapper">
   <h1>My Quizzes</h1>
-  <a href="{{ path('app_quizes_index') }}">Back to List</a>
-
   <ul>
     {% for quiz in quizes %}
       <li>
         <div>
           <span class="label">Title:</span>{{ quiz.title }}
-          <span class="label">Description:</span>{{ quiz.description }}
           <span class="label">Code:</span>{{ quiz.code }}
         </div>
         <div>
