@@ -62,7 +62,7 @@
 }
 .second{
  width: 600px;
- height: 388px;
+ height: fit-content;
 }
 .save{
   margin-bottom: 15px;
@@ -153,10 +153,11 @@
                   <div class="container">
                   
     <button id="toggleButton" class="btn-outline-primary" type="button"onclick="toggleInputs()">Change password</button>
+    <button id="submit-btn" class="save" value="Sign Up" onmouseover="mouseOver()">Save</button>
    {{ form_widget(form.new_password.first, { 'attr': {'class': 'form-control hidden'} }) }}
+   <br>
   {{ form_widget(form.new_password.second, { 'attr': {'class': 'form-control hidden'} }) }}
 
-    <button id="submit-btn" class="save" value="Sign Up" onmouseover="mouseOver()">Save</button>
     {{ form_end(form) }}
 {% endblock %}
     </div>
