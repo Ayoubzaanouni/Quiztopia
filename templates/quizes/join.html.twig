@@ -2,11 +2,12 @@
 
 {% block title %}Quizes{% endblock %}
 
-
 {% block body %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>function hideDiv() {
       var divElement = document.getElementById("navbarNav");
       divElement.remove();
+      
       document.addEventListener('contextmenu', function(event) {
       event.preventDefault();
     });
@@ -75,6 +76,7 @@
 </style>
 
 <div class="card">
+  <h1 id="num"></h1>
   <button id="showButton" type="button" class="btn-success">Start Quiz</button>
   <form method="POST" action="#" id="quizForm" style="display: none;">
     <div id="questionContainer">
@@ -89,11 +91,32 @@
 </div>
 
 <script>
+$(document).ready(function(){
+   $('body').bind('cut copy paste', function (e)
+   {
+      e.preventDefault();
+   });
+});
+document.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && (event.key === 'Tab' || event.key === 'PageDown')) {
+    event.preventDefault();
+    // Perform any desired action here
+  }
+});
   const showButton = document.getElementById("showButton");
   const quizForm = document.getElementById("quizForm");
 
-  showButton.addEventListener("click", function() {
 
+  showButton.addEventListener("click", function() {
+     if (event.altKey) {
+      console.log('alt key');
+    event.preventDefault(); // Prevent default behavior (optional)
+  }
+document.addEventListener('keydown', function(event) {
+    event.preventDefault();
+  });
+ counter = 1;
+  numElement.textContent = counter+'/'+Object.keys(myDictionary).length;
     quizForm.style.display = "block";
     showButton.style.display = "none";
     if (document.documentElement.requestFullscreen) {
@@ -107,12 +130,15 @@
   }
 
   });
+  const numElement = document.getElementById('num');
+  let counter = 0;
   var currentIndex = 0;
   var questionTextElement = document.getElementById('questionText');
   var answersListElement = document.getElementById('answersList');
   var selectedAnswers = [];
 
   function loadQuestion() {
+
     var questionKeys = Object.keys(myDictionary);
 
     var QuestionText = questionKeys[currentIndex].split(',')[0];
@@ -145,8 +171,11 @@
   }
 
   function nextQuestion() {
+    counter++;
+  numElement.textContent = counter+'/'+Object.keys(myDictionary).length;
     currentIndex++;
     console.log(currentIndex);
+    console.log(Object.keys(myDictionary).length);
     var len = Object.keys(myDictionary).length;
     if (currentIndex >= Object.keys(myDictionary).length) {
       console.log('End of questions');

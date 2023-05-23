@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Questions;
 use App\Entity\Quizes;
 use App\Entity\Answers;
+use App\Entity\Questions;
 
 use App\Form\QuestionsType;
+use Symfony\Component\Form\FormError;
 use App\Repository\QuestionsRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[Route('/questions')]
@@ -66,11 +67,21 @@ class QuestionsController extends AbstractController
                 $answerData->setQuestId($question);
                 $answerData->setQuizId($quiz);
                 $question->addAnswer($answerData);
-
             }
             
-            
+            $answers = $form->get('answers')->getData();
+            $atLeastOneCorrect = false;
+            foreach ($answers as $answer) {
+                if ($answer->isIsCorrect()) {
+                    $atLeastOneCorrect = true;
+                    break;
+                }
+            }
+            if (!$atLeastOneCorrect) {
+                $form->addError(new FormError('At least one answer should be marked as correct.'));            } 
+            else{
             $questionsRepository->save($question, true);
+
     
             // return $this->redirectToRoute('app_questions_new', ['quiz_id' => $quiz->getId()]);
 
@@ -81,12 +92,13 @@ class QuestionsController extends AbstractController
             } else {
                 // redirect to some other page
                 return $this->redirectToRoute('app_user_quizes');
-            }        }
+            }        }}
     
         return $this->renderForm('questions/new.html.twig', [
             'question' => $question,
             'form' => $form,
         ]);
+    
     }
     
 

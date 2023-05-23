@@ -36,6 +36,7 @@ security:
          - { path: ^/quizes, roles: ROLE_USER }
          - { path: ^/user, roles: ROLE_USER }
          - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/about, roles: ROLE_USER }
 
 when@test:
     security:

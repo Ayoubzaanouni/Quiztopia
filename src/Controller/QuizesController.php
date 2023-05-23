@@ -55,6 +55,10 @@ class QuizesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user =new Users();
             $user = $this->getUser();
+            $max = $form->get('max_tries')->getData();
+            if ($max < 0){
+                $quize->setMaxTries(0);
+            }
             $quizesRepository->save($quize,$user ,true);
 
             return $this->redirectToRoute('app_questions_new', ['quiz_id' => $quize->getId()]);

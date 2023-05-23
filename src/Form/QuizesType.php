@@ -39,8 +39,13 @@ class QuizesType extends AbstractType
                 'attr' => [
                     'class' => 'form-control mb-5',
                     'placeholder' => 'Enter the maximum tries',
+                    'min' => '0', // Set the minimum value to 0
+                    'step' => '1', // Set the step to 1
+                    'pattern' => '[0-9]+', // Use a pattern to enforce only numeric input
+                    'title' => 'Please enter a positive number', // Provide a title for the pattern constraint
                 ],
             ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void
