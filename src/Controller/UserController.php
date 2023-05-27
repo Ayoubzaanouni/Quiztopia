@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\Users1Type;
+use App\Entity\Quizes;
+use App\Entity\QuizParticipant;
 use App\Repository\UsersRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -92,6 +94,68 @@ class UserController extends AbstractController
             'quizes' => $quizes,
         ]);
     }
+
+    #[Route('/user/quizes-history', name: 'app_user_quizes_history')]
+    public function history(EntityManagerInterface $em): Response
+    {
+        /** @var User1 $user */
+        $user = $this->getUser();
+        $user_id = $user->getId();
+        
+        $conn = $em->getConnection();
+
+        $sql = 'SELECT DISTINCT quiz_id_id FROM quiz_participant WHERE user_id_id = :userId';
+        $statement = $conn->prepare($sql);
+        $statement->bindValue('userId', $user_id);
+        $result = $statement->executeQuery();
+        $quizesIds = $result->fetchAllAssociative();
+        $quizIds = array_column($quizesIds, 'quiz_id_id');
+        $quizRepository = $em->getRepository(Quizes::class);
+        $quizesData = $quizRepository->findBy(['id' => $quizIds]);
+
+
+        return $this->render('user/joined_history.html.twig', [
+            'quizes' => $quizesData,
+            'ids' => $quizesIds,
+        ]);
+    }
+    #[Route('/user/quizes-history/{id}', name: 'app_user_tries', methods: ['GET'])]
+    public function tries(Quizes $quize, UsersRepository $usersRepository): Response
+    {
+        /** @var User1 $user */
+        $user = $this->getUser();
+        $user_id = $user->getId();
+        
+        $quiz_pt = $quize->getQuizParticipants();
+
+        return $this->render('user/tries.html.twig', [
+            'quize_pt' => $quiz_pt,
+            'user_id'=>$user_id,
+            'quize' => $quize,
+        ]);
+    }
+
+    #[Route('/user/quizes-history/trie/{id}', name: 'app_user_trie_history', methods: ['GET'])]
+    public function answers(QuizParticipant $pt, EntityManagerInterface $em): Response
+    {
+        /** @var User1 $user */
+        $user = $this->getUser();
+        $user_id = $user->getId();
+
+        $quiz = $pt->getQuizId();
+        $quizQuestion =$quiz->getQuestions();
+
+        $answers = $pt->getAnswers();
+
+        return $this->render('user/answers.html.twig', [
+            'answers' => $answers,
+            'user_id'=>$user_id,
+            'pt' => $pt,
+            'questions' => $quizQuestion,
+        ]);
+    }
+    
+    
 
     //a = another
     #[Route('/user/{id}', name: 'app_a_user')]

@@ -24,7 +24,7 @@ signInButton.addEventListener('click', () => {
 	var captcha = document.getElementById('captcha').innerText;
 
 	if (userInput === captcha) {
-	  alert('Account created');
+	  alert('Captcha passed');
 	  generateCaptcha();
 	  document.getElementById('userInput').value = '';
 	} else {

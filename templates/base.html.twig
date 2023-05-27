@@ -27,6 +27,7 @@
                 <div class="d-flex flex-column mb-4">
                     <a type="button" href="{{ path('app_quizes_index') }}" class="btn mb-3 btn-outline-secondary btn-block {% if app.request.attributes.get('_route') == 'app_quizes_index' %}active{% endif %}">Dashboard</a>
                     <a type="button" href="{{ path('app_user') }}" class="btn mb-3 btn-outline-secondary btn-block {% if app.request.attributes.get('_route') == 'app_user' %}active{% endif %}">My Profile</a>
+                    <a type="button" href="{{ path('app_user_quizes_history') }}" class="btn mb-3 btn-outline-secondary btn-block {% if app.request.attributes.get('_route') == 'app_user_quizes_history' %}active{% endif %}">Quizes History</a>
                     <a type="button" href="{{ path('app_about') }}" class="btn mb-3 btn-outline-secondary btn-block">About</a>
                 </div>
                 <!-- Button groups inside the sidebar -->

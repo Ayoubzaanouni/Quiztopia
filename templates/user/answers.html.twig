@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tries{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+            <h1 style="text-align: center;">Score: {{ pt.getScore() }}%</h1>
+<div class="example-wrapper" style="display: flex; flex-wrap: wrap;max-width:93%;">
+    {% for question in questions %}
+    <div class="card-container hist-card">
+        <div class="card cc">
+            <div class="card-header">
+                <h5 class="card-title">{{ question.text }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h6>Your Answer</h6>
+                        <ul>
+                        {% for answer in answers %}
+                            {% if answer.getQuestId().getId() == question.getId() %}
+                                <li><span class="label">{{ answer.text }}</span></li>
+                            {% endif %}
+                        {% endfor %}
+                        <ul>
+                    </div>
+                    <div class="col">
+                        <h6>Correct Answer</h6>
+                        <ul>
+                        {% for c_answer in question.getAnswers() %}
+                            {% if c_answer.isIsCorrect() %}
+                               <li style="background-color:green;"><span class="label">{{ c_answer.text }}</span></li> 
+                            {% endif %}
+                        {% endfor %}
+                        <ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if loop.index % 2 == 0 %}
+        <br>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

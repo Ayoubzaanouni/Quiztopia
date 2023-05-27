@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tries{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+  <h1>My Tries in {{quize.title}} </h1>
+
+  <a href="{{ path('app_quizes_index') }}">Back to List</a>
+   {% if quize_pt is not empty %}
+    
+
+        {% for pt in quize_pt %}
+        {% if pt.getUserId().getId() == user_id %}
+            {% set ptId = pt.getId()%}
+        
+            
+  <ul>
+      <li>
+        <div>
+          <span class="label">trie nº: {{pt.getNbrTries()}}</span>
+          <span class="label">Score: {{ pt.getScore()}}%</span>
+          <span class="label">Joined At: {{ pt.getJoinedAt()|date('Y-m-d H:i:s') }}</span>
+        </div>
+          <a type="button" href="{{ path('app_user_trie_history', {'id': ptId}) }}" class="btn-primary showAns">Show Answers</a>
+      </li>
+  </ul>
+  {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>No quiz participants found.</p>
+    {% endif %}
+</div>
+{% endblock %}
