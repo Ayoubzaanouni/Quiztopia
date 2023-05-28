@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}participants{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+ <div class="example-wrapper">
+  <h1>Paricipants in {{ quize.title }} quize</h1>
+
+  <ul>
+{% for participant in participants|reverse %}
+      <li>
+        <div>
+          <span class="label">name:</span>{{ participant.getUserName()}}
+          <span class="label">email:</span>{{ participant.getEmail()}}
+         {% set user_id =participant.getId() %}
+          {% set part_name = participant.getUserName() %}
+        </div>
+        <div>
+          <a type="button" href="{{ path('app_user_tries', {'id': quize.id,'user_id':user_id,'part_name':part_name }) }}" class="btn-primary showTries" >Show Tries</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

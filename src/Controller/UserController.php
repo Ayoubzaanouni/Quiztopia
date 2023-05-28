@@ -120,11 +120,23 @@ class UserController extends AbstractController
         ]);
     }
     #[Route('/user/quizes-history/{id}', name: 'app_user_tries', methods: ['GET'])]
-    public function tries(Quizes $quize, UsersRepository $usersRepository): Response
+    public function tries(Quizes $quize, Request $request): Response
     {
+
+        $participantId = $request->query->get('user_id');
+        $participantName = $request->query->get('part_name');
+
+
         /** @var User1 $user */
         $user = $this->getUser();
-        $user_id = $user->getId();
+
+        if($participantId == null){
+            $user_id = $user->getId();
+        }
+        else{
+            $user_id =$participantId;
+        }
+        
         
         $quiz_pt = $quize->getQuizParticipants();
 
@@ -132,6 +144,7 @@ class UserController extends AbstractController
             'quize_pt' => $quiz_pt,
             'user_id'=>$user_id,
             'quize' => $quize,
+            'part_name'=> $participantName,
         ]);
     }
 

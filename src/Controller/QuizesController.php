@@ -84,6 +84,27 @@ class QuizesController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/participants', name: 'app_quize_participants', methods: ['GET'])]
+    public function participants(Quizes $quize,EntityManagerInterface $em, UsersRepository $usersRepository): Response
+    {
+        $conn = $em->getConnection();
+        $sql = 'SELECT DISTINCT user_id_id FROM quiz_participant WHERE quiz_id_id = :quizId';
+        $statement = $conn->prepare($sql);
+        $statement->bindValue('quizId', $quize->getId());
+        $result = $statement->executeQuery();
+        $participantIds = $result->fetchAllAssociative();
+        $participantsIds = array_column($participantIds, 'user_id_id');
+
+
+        $participantRepository = $em->getRepository(Users::class);
+        $participantsData = $participantRepository->findBy(['id' =>$participantsIds]);
+
+        
+        return $this->render('quizes/participants.html.twig', [
+            'participants' => $participantsData,
+            'quize' => $quize,        ]);
+    }
+
     // #[Route('/code', name: 'app_quizes_code', methods: ['GET', 'POST'])]
     // public function code(Request $request): Response
     // {

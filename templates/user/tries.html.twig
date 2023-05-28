@@ -8,9 +8,13 @@
 
 {% block body %}
 <div class="example-wrapper">
-  <h1>My Tries in {{quize.title}} </h1>
+{% if app.user.id == user_id %}
+  {% set text = "My Tries" %}
+  {% else %}
+    {% set text = part_name ~ ' tries' %}
+{% endif %}
+  <h1>{{text}} in {{quize.title}} </h1>
 
-  <a href="{{ path('app_quizes_index') }}">Back to List</a>
    {% if quize_pt is not empty %}
     
 
