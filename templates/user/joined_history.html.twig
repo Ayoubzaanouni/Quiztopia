@@ -11,7 +11,7 @@
   <h1>My Quizzes</h1>
 
   <ul>
-{% for quiz in quizes %}
+{% for quiz in quizes|reverse %}
       <li>
         <div>
           <span class="label">Title:</span>{{ quiz.title }}

@@ -18,7 +18,8 @@
           <span class="label">Title:</span>{{ quiz.title }}
           <span class="label">Code:</span>{{ quiz.code }}
         </div>
-        <div>
+        <div style="padding-top: 15px;">
+          <a type="button" href="{{ path('app_quizes_show', {'id': quiz.id}) }}" class="btn-primary edit" style="width:130px;">Participants</a>
           <a type="button" href="{{ path('app_quizes_show', {'id': quiz.id}) }}" class="btn-primary edit">Show</a>
           <a type="button" class="btn-primary edit" href="{{ path('app_quizes_edit', {'id': quiz.id}) }}">Edit</a>
         </div>

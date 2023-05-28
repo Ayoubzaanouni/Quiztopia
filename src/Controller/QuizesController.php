@@ -179,7 +179,18 @@ class QuizesController extends AbstractController
             $scoreString = strval(0);
         }
         $qpr->save($quiz_participant, true);
-        return $this->redirectToRoute('app_quizes_index', ['score'=>$scoreString]);
+
+        $quiz = $quiz_participant->getQuizId();
+        $quizQuestion =$quiz->getQuestions();
+        $answers = $quiz_participant->getAnswers();
+
+        return $this->render('user/answers.html.twig', [
+            'answers' => $answers,
+            'user_id'=>$user_id,
+            'pt' => $quiz_participant,
+            'questions' => $quizQuestion,
+            'score' => $scoreString,
+        ]);
     
     }
 
