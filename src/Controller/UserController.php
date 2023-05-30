@@ -181,7 +181,7 @@ class UserController extends AbstractController
         }
         
         $quizes = $user->getQuizes();
-    
+
         return $this->render('user/public_quizes.html.twig', [
             'quizes' => $quizes,
         ]);
